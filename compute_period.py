@@ -1,12 +1,65 @@
 import argparse
+import numpy as np
 import pandas as pd
 import multiprocessing as mp
+from gatspy import periodic
 
 parser = argparse.ArgumentParser(description = "Helper for parallel processing.")
-parser.add_argument('processes', metavar = 'N', type = int, nargs = 1, help = "Number of processes to use.")
-number_of_cpus = parser.parse_args()
+parser.add_argument('number_of_cpus', metavar = 'N', type = int, help = "Number of processes to use.")
+args = parser.parse_args()
+number_of_cpus = args.number_of_cpus
 
 hubble = pd.read_csv("hubble.csv")
+
+def phase_dispersion_minimization(times, magnitudes, uncertainties, periods):
+    """Implements the formula for calculating the Lafler-Kinman statistic
+    using weighted phase dispersion minimization."""
+
+    lafler_kinmans = []
+    for period in periods:
+
+        folded = (times / period) % 1
+        ordered = sorted(list(zip(folded, magnitudes, uncertainties)), key = lambda x: x[0])
+        unzipped = [list(t) for t in zip(*ordered)]
+        measurements, errors = unzipped[1], unzipped[2]
+        wrap_measurements = [measurements[-1]] + measurements
+        wrap_errors = [errors[-1]] + errors
+
+        weights = []
+        for i in range(1, len(wrap_errors)):
+            weights.append(1 / (wrap_errors[i]**2 + wrap_errors[i - 1]**2))
+
+        numerator = []
+        for j in range(1, len(wrap_measurements)):
+            difference = (wrap_measurements[j] - wrap_measurements[j - 1])**2
+            numerator.append(difference * weights[j - 1])
+
+        weighted_mean = np.mean(np.array(measurements) * np.array(weights))
+        denominator = sum(weights)*sum((np.array(measurements) - weighted_mean)**2)
+        lafler_kinman = sum(numerator) / denominator
+        lafler_kinmans.append(lafler_kinman)
+
+    return np.array(lafler_kinmans)
+
+
+def lomb_scargle_analysis(times, magnitudes, uncertainties, min_period = 0.2, max_period = 1.5):
+    """Generates the Lomb-Scargle periodogram for a variable star light curve."""
+    fit_periods = np.linspace(min_period, max_period, 10000)
+    model = periodic.LombScargleFast(fit_period = True)
+    model.optimizer.period_range = (min_period, max_period)
+    model.fit(times, magnitudes, uncertainties)
+    return [fit_periods, model.score(fit_periods)]
+
+
+def hybrid_statistic(times, magnitudes, uncertainties):
+    """Computes the hybrid statistic defined by Saha et al. (2017).
+    Then, uses the hybrid statistic to find the best period."""
+    periods, pi = lomb_scargle_analysis(times, magnitudes, uncertainties)
+    theta = phase_dispersion_minimization(times, magnitudes, uncertainties, periods)
+    hybrid_statistic = np.array(2 * pi / theta)
+    best_period = periods[np.argmax(hybrid_statistic)]
+    return [1 / periods, pi, 2 / theta, hybrid_statistic, best_period]
+
 
 def filter_data(dataset, passband, **kwargs):
     """Returns light curve data for a specific star in a specific passband."""
