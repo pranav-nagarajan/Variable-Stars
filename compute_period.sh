@@ -12,6 +12,6 @@
 #SBATCH --mail-user=pranav.njn@berkeley.edu
 
 ## Command(s) to run:
-module load gatspy
+module load python
 echo "Starting period computation for Hubble RR Lyrae dataset..."
 python compute_period.py $SLURM_CPUS_PER_TASK
