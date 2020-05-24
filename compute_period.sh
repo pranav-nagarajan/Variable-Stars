@@ -12,6 +12,6 @@
 #SBATCH --mail-user=pranav.njn@berkeley.edu
 
 ## Command(s) to run:
-module load python
+module load python/3.6
 echo "Starting period computation for Hubble RR Lyrae dataset..."
 python compute_period.py $SLURM_CPUS_PER_TASK
