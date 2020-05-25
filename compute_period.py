@@ -14,6 +14,7 @@ args = parser.parse_args()
 number_of_cpus = args.number_of_cpus
 photometric_data = pd.read_csv(args.photometric_data)
 star_catalog = pd.read_csv(args.star_catalog)
+counter = 0
 
 def phase_dispersion_minimization(times, magnitudes, uncertainties, periods):
     """Implements the formula for calculating the Lafler-Kinman statistic
@@ -119,7 +120,9 @@ def compute_period(row, dataset):
         return find_best_period(dataset, galaxy = galaxy, star = star)
     elif 'Star' in row.keys():
         star = row['Star']
-        print(star)
+        global counter
+        counter += 1
+        print(counter)
         return find_best_period(dataset, star = star)
     else:
         return find_best_period(dataset)
