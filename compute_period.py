@@ -58,10 +58,7 @@ def lomb_scargle_analysis(times, magnitudes, uncertainties, min_period = 0.2, ma
 def hybrid_statistic(times, magnitudes, uncertainties):
     """Computes the hybrid statistic defined by Saha et al. (2017).
     Then, uses the hybrid statistic to find the best period."""
-    try:
-        periods, pi = lomb_scargle_analysis(times, magnitudes, uncertainties)
-    except ZeroDivisionError as e:
-        print(times, magnitudes, uncertainties)
+    periods, pi = lomb_scargle_analysis(times, magnitudes, uncertainties)
     theta = phase_dispersion_minimization(times, magnitudes, uncertainties, periods)
     hybrid_statistic = np.array(2 * pi / theta)
     best_period = periods[np.argmax(hybrid_statistic)]
@@ -122,7 +119,6 @@ def compute_period(row, dataset):
         return find_best_period(dataset, galaxy = galaxy, star = star)
     elif 'Star' in row.keys():
         star = row['Star']
-        print(star)
         return find_best_period(dataset, star = star)
     else:
         return find_best_period(dataset)
