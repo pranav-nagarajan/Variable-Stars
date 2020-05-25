@@ -1,4 +1,5 @@
 import argparse
+import pickle
 import numpy as np
 import pandas as pd
 import multiprocessing as mp
@@ -10,6 +11,7 @@ args = parser.parse_args()
 number_of_cpus = args.number_of_cpus
 
 hubble = pd.read_csv("hubble.csv")
+hubble_periods = pd.read_csv("hubble_periods.csv")
 
 def phase_dispersion_minimization(times, magnitudes, uncertainties, periods):
     """Implements the formula for calculating the Lafler-Kinman statistic
@@ -112,5 +114,7 @@ def compute_period(row, dataset):
     return find_best_period(dataset, galaxy = row['Galaxy'], star = row['Star'])
 
 pool = mp.Pool(processes = number_of_cpus)
-hubble_results = pool.starmap(compute_period, [(row, hubble) for (index, row) in hubble.iterrows()])
+hubble_results = pool.starmap(compute_period, [(row, hubble) for (index, row) in hubble_periods.iterrows()])
 pool.close()
+
+pickle.dump(hubble_results, open("computed_periods.pkl", "wb"))
