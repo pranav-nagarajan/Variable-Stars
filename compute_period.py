@@ -113,11 +113,11 @@ def find_best_period(dataset, **kwargs):
 
 
 def compute_period(row, dataset):
-    if 'Galaxy' in row.columns and 'Star' in row.columns:
+    if 'Galaxy' in row.keys() and 'Star' in row.keys():
         galaxy = row['Galaxy']
         star = row['Star']
         return find_best_period(dataset, galaxy = galaxy, star = star)
-    elif 'Star' in row.columns:
+    elif 'Star' in row.keys():
         star = row['Star']
         return find_best_period(dataset, star = star)
     else:
