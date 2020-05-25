@@ -14,7 +14,6 @@ args = parser.parse_args()
 number_of_cpus = args.number_of_cpus
 photometric_data = pd.read_csv(args.photometric_data)
 star_catalog = pd.read_csv(args.star_catalog)
-counter = 0
 
 def phase_dispersion_minimization(times, magnitudes, uncertainties, periods):
     """Implements the formula for calculating the Lafler-Kinman statistic
@@ -59,7 +58,10 @@ def lomb_scargle_analysis(times, magnitudes, uncertainties, min_period = 0.2, ma
 def hybrid_statistic(times, magnitudes, uncertainties):
     """Computes the hybrid statistic defined by Saha et al. (2017).
     Then, uses the hybrid statistic to find the best period."""
-    periods, pi = lomb_scargle_analysis(times, magnitudes, uncertainties)
+    try:
+        periods, pi = lomb_scargle_analysis(times, magnitudes, uncertainties)
+    except ZeroDivisionError as e:
+        print(times, magnitudes, uncertainties)
     theta = phase_dispersion_minimization(times, magnitudes, uncertainties, periods)
     hybrid_statistic = np.array(2 * pi / theta)
     best_period = periods[np.argmax(hybrid_statistic)]
@@ -120,9 +122,6 @@ def compute_period(row, dataset):
         return find_best_period(dataset, galaxy = galaxy, star = star)
     elif 'Star' in row.keys():
         star = row['Star']
-        global counter
-        counter += 1
-        print(counter)
         return find_best_period(dataset, star = star)
     else:
         return find_best_period(dataset)
