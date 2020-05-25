@@ -119,6 +119,7 @@ def compute_period(row, dataset):
         return find_best_period(dataset, galaxy = galaxy, star = star)
     elif 'Star' in row.keys():
         star = row['Star']
+        print(star)
         return find_best_period(dataset, star = star)
     else:
         return find_best_period(dataset)
