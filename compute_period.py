@@ -7,11 +7,13 @@ from gatspy import periodic
 
 parser = argparse.ArgumentParser(description = "Helper for parallel processing.")
 parser.add_argument('number_of_cpus', metavar = 'N', type = int, help = "Number of processes to use.")
+parser.add_argument('photometric_data', type = str, help = "Light curve data for RR Lyrae stars.")
+parser.add_argument('star_catalog', type = str, help = "Catalog of unique RR Lyrae stars.")
 args = parser.parse_args()
-number_of_cpus = args.number_of_cpus
 
-hubble = pd.read_csv("hubble.csv")
-hubble_periods = pd.read_csv("hubble_periods.csv")
+number_of_cpus = args.number_of_cpus
+photometric_data = pd.read_csv(args.photometric_data)
+star_catalog = pd.read_csv(args.star_catalog)
 
 def phase_dispersion_minimization(times, magnitudes, uncertainties, periods):
     """Implements the formula for calculating the Lafler-Kinman statistic
@@ -111,10 +113,20 @@ def find_best_period(dataset, **kwargs):
 
 
 def compute_period(row, dataset):
-    return find_best_period(dataset, galaxy = row['Galaxy'], star = row['Star'])
+    if 'Galaxy' in row.columns and 'Star' in row.columns:
+        galaxy = row['Galaxy']
+        star = row['Star']
+        return find_best_period(dataset, galaxy = galaxy, star = star)
+    else if 'Star' in row.columns:
+        star = row['Star']
+        return find_best_period(dataset, star = star)
+    else:
+        return find_best_period(dataset)
+
 
 pool = mp.Pool(processes = number_of_cpus)
-hubble_results = pool.starmap(compute_period, [(row, hubble) for (index, row) in hubble_periods.iterrows()])
+iterables = [(row, photometric_data) for (index, row) in star_catalog.iterrows()]
+hubble_results = pool.starmap(compute_period, iterables)
 pool.close()
 
 pickle.dump(hubble_results, open("computed_periods.pkl", "wb"))

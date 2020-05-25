@@ -14,4 +14,4 @@
 ## Command(s) to run:
 module load python/3.6
 echo "Starting period computation for Hubble RR Lyrae dataset..."
-python compute_period.py $SLURM_CPUS_PER_TASK
+python compute_period.py $SLURM_CPUS_PER_TASK hubble.csv hubble_periods.csv
