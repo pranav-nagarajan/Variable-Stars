@@ -376,7 +376,7 @@ scl-CEMV438  V159   K5359 01 00 28.29 -33 44 03.4 0.6709552 -- 20.317 19.974 19.
 scl-CEMV439  K5354  ----- 01 00 28.40 -33 44 12.1 0.4032307 -- 20.323 20.074 19.599 0.631 0.470 0.272 2 0 RRd  split light curve; multimode? 0.68d period seems less likely
 scl-CEMV440  ----   ----- 01 00 28.59 -33 52 03.2 0.6392694 -- 20.450 20.140 19.638 1.122 0.879 0.417 0 1 RRab
 scl-CEMV441  K5401  ----- 01 00 28.72 -33 42 29.2 0.3347711 -- 20.228 20.068 19.760 1.014 0.711 0.186 2 0 RRd  multimode? incomplete phase coverage in I; 0.5d period not supported by these dat
-scl-CEMV442a V408   K5496 01 00 28.94 -33 42 23.0 0.5257402 -- 20.446 20.190 19.743 1.115 0.925 0.603 5 0 RRab noisy light curve near maximum light; Blazhko?
+scl-CEMV442  V408   K5496 01 00 28.94 -33 42 23.0 0.5257402 -- 20.446 20.190 19.743 1.115 0.925 0.603 5 0 RRab noisy light curve near maximum light; Blazhko?
 scl-CEMV443  V160   K5802 01 00 29.29 -33 40 52.6 0.5149592 -- 20.512 20.238 19.729 1.409 1.079 1.023 2 0 RRab noisy light curve with incomplete phase coverage
 scl-CEMV444  K5400  ----- 01 00 29.28 -33 42 30.7 0.3289072 -- 20.459 20.231 19.830 0.625 0.519 0.302 3 0 RRc
 scl-CEMV445  V53    K5390 01 00 29.42 -33 42 44.6 0.6596728 -- 20.335 20.020 19.510 1.363 1.059 0.624 3 0 RRab
