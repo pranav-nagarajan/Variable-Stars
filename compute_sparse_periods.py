@@ -3,10 +3,14 @@ import argparse
 import pickle
 import multiprocessing as mp
 import numpy as np
+import pandas as pd
 
 sparse_parser = argparse.ArgumentParser(description = "Helper for parallel processing.")
 sparse_parser.add_argument('number_of_cpus', metavar = 'N', type = int, help = "Number of processes to use.")
+sparse_parser.add_argument('photometric_data', type = str, help = "Light curve data for RR Lyrae stars.")
 sparse_args = sparse_parser.parse_args()
+
+data = pd.read_csv(sparse_args.photometric_data)
 number_of_cpus = sparse_args.number_of_cpus
 
 sparsities = np.array([1.0, 0.5, 0.25, 0.125])
@@ -148,7 +152,7 @@ def simulate_best_period(dataset, sparsity = 1.0, signal_to_noise = 0, **kwargs)
 def sparse_periods(combinations):
     sparse_periods = []
     for combo in combinations:
-        sparse_periods.append(simulate_best_period(saha, combo[0], combo[1]))
+        sparse_periods.append(simulate_best_period(data, combo[0], combo[1]))
     return sparse_periods
 
 

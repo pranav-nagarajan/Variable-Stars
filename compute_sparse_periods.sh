@@ -14,4 +14,4 @@
 ## Command(s) to run:
 module load python/3.6
 echo "Starting period computation for sparse and noisy datasets..."
-python compute_sparse_periods.py $SLURM_CPUS_PER_TASK
+python compute_sparse_periods.py $SLURM_CPUS_PER_TASK saha.csv
