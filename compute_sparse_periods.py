@@ -3,8 +3,6 @@ import argparse
 import pickle
 import multiprocessing as mp
 import numpy as np
-from compute_period import (phase_dispersion_minimization, lomb_scargle_analysis, hybrid_statistic,
-filter_data, plot_periodogram, find_best_period)
 
 sparse_parser = argparse.ArgumentParser(description = "Helper for parallel processing.")
 sparse_parser.add_argument('number_of_cpus', metavar = 'N', type = int, help = "Number of processes to use.")
@@ -14,6 +12,103 @@ number_of_cpus = sparse_args.number_of_cpus
 sparsities = np.array([1.0, 0.5, 0.25, 0.125])
 sn_ratios = np.array([1, 10, 100, 1000])
 all_combos = list(itertools.repeat(list(itertools.product(sparsities, sn_ratios)), 100))
+
+
+def phase_dispersion_minimization(times, magnitudes, uncertainties, periods):
+    """Implements the formula for calculating the Lafler-Kinman statistic
+    using weighted phase dispersion minimization."""
+
+    lafler_kinmans = []
+    for period in periods:
+
+        folded = (times / period) % 1
+        ordered = sorted(list(zip(folded, magnitudes, uncertainties)), key = lambda x: x[0])
+        unzipped = [list(t) for t in zip(*ordered)]
+        measurements, errors = unzipped[1], unzipped[2]
+        wrap_measurements = [measurements[-1]] + measurements
+        wrap_errors = [errors[-1]] + errors
+
+        weights = []
+        for i in range(1, len(wrap_errors)):
+            weights.append(1 / (wrap_errors[i]**2 + wrap_errors[i - 1]**2))
+
+        numerator = []
+        for j in range(1, len(wrap_measurements)):
+            difference = (wrap_measurements[j] - wrap_measurements[j - 1])**2
+            numerator.append(difference * weights[j - 1])
+
+        weighted_mean = np.mean(np.array(measurements) * np.array(weights))
+        denominator = sum(weights)*sum((np.array(measurements) - weighted_mean)**2)
+        lafler_kinman = sum(numerator) / denominator
+        lafler_kinmans.append(lafler_kinman)
+
+    return np.array(lafler_kinmans)
+
+
+def lomb_scargle_analysis(times, magnitudes, uncertainties, min_period = 0.2, max_period = 1.5):
+    """Generates the Lomb-Scargle periodogram for a variable star light curve."""
+    fit_periods = np.linspace(min_period, max_period, 10000)
+    model = periodic.LombScargleFast(fit_period = True)
+    model.optimizer.period_range = (min_period, max_period)
+    model.fit(times, magnitudes, uncertainties)
+    return [fit_periods, model.score(fit_periods)]
+
+
+def hybrid_statistic(times, magnitudes, uncertainties):
+    """Computes the hybrid statistic defined by Saha et al. (2017).
+    Then, uses the hybrid statistic to find the best period."""
+    periods, pi = lomb_scargle_analysis(times, magnitudes, uncertainties)
+    theta = phase_dispersion_minimization(times, magnitudes, uncertainties, periods)
+    hybrid_statistic = np.array(2 * pi / theta)
+    best_period = periods[np.argmax(hybrid_statistic)]
+    return [1 / periods, pi, 2 / theta, hybrid_statistic, best_period]
+
+
+def filter_data(dataset, passband, **kwargs):
+    """Returns light curve data for a specific star in a specific passband."""
+
+    filtered = dataset[dataset["Passband"] == passband]
+
+    for elem in kwargs.keys():
+        try:
+            filtered = filtered[filtered[elem.capitalize()] == kwargs.get(elem)]
+        except KeyError as e:
+            print(f"Dataset does not contain {e.args[0]} column. Attempting to filter based on additional keyword arguments.")
+
+    epoch = filtered["HJD-2400000.0"].values
+    magnitudes = filtered["Magnitude"].values
+    magnitude_errors = filtered["Uncertainty in Magnitude"].values
+    return epoch, magnitudes, magnitude_errors
+
+
+def plot_periodogram(dataset, passband, **kwargs):
+    """Generates Lomb-Scargle, Lafler-Kinman, and hybrid periodograms for a variable star light curve."""
+
+    epoch, magnitudes, magnitude_errors = filter_data(dataset, passband, **kwargs)
+    frequencies, ls_powers, lk_powers, hybrid_powers, best_period = hybrid_statistic(epoch, magnitudes, magnitude_errors)
+
+    return [frequencies, ls_powers, lk_powers, hybrid_powers, best_period]
+
+
+def find_best_period(dataset, **kwargs):
+    """Find the best period by averaging across the results from each passband."""
+
+    passbands = dataset["Passband"].unique()
+    freqs, ls_powers, lk_powers, hybrid_powers, period = plot_periodogram(dataset, passbands[0], **kwargs)
+    print('\n')
+
+    for passband in passbands[1:]:
+        new_results = plot_periodogram(dataset, passband, **kwargs)
+        ls_powers = ls_powers + new_results[1]
+        lk_powers = lk_powers + new_results[2]
+        hybrid_powers = hybrid_powers + new_results[3]
+        print('\n')
+
+    best_ls_period = 1 / (freqs[np.argmax(ls_powers)])
+    best_lk_period = 1 / (freqs[np.argmax(lk_powers)])
+    best_hybrid_period = 1 / (freqs[np.argmax(hybrid_powers)])
+
+    return [best_ls_period, best_lk_period, best_hybrid_period]
 
 
 def simulate_sparsity_and_noise(dataset, passband, sparsity = 1.0, signal_to_noise = 0, **kwargs):
