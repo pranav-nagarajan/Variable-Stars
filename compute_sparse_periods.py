@@ -1,7 +1,7 @@
 import itertools
 import argparse
 import pickle
-import multiprocessing
+import multiprocessing as mp
 import numpy as np
 
 parser = argparse.ArgumentParser(description = "Helper for parallel processing.")
