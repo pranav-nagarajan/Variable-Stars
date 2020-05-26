@@ -3,7 +3,8 @@ import argparse
 import pickle
 import multiprocessing as mp
 import numpy as np
-from compute_period import *
+from compute_period import (phase_dispersion_minimization, lomb_scargle_analysis, hybrid_statistic,
+filter_data, plot_periodogram, find_best_period)
 
 parser = argparse.ArgumentParser(description = "Helper for parallel processing.")
 parser.add_argument('number_of_cpus', metavar = 'N', type = int, help = "Number of processes to use.")
