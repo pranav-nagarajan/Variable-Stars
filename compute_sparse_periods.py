@@ -6,10 +6,10 @@ import numpy as np
 from compute_period import (phase_dispersion_minimization, lomb_scargle_analysis, hybrid_statistic,
 filter_data, plot_periodogram, find_best_period)
 
-parser = argparse.ArgumentParser(description = "Helper for parallel processing.")
-parser.add_argument('number_of_cpus', metavar = 'N', type = int, help = "Number of processes to use.")
-args = parser.parse_args()
-number_of_cpus = args.number_of_cpus
+sparse_parser = argparse.ArgumentParser(description = "Helper for parallel processing.")
+sparse_parser.add_argument('number_of_cpus', metavar = 'N', type = int, help = "Number of processes to use.")
+sparse_args = sparse_parser.parse_args()
+number_of_cpus = sparse_args.number_of_cpus
 
 sparsities = np.array([1.0, 0.5, 0.25, 0.125])
 sn_ratios = np.array([1, 10, 100, 1000])
