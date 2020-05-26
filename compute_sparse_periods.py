@@ -4,6 +4,7 @@ import pickle
 import multiprocessing as mp
 import numpy as np
 import pandas as pd
+from gatspy import periodic
 
 sparse_parser = argparse.ArgumentParser(description = "Helper for parallel processing.")
 sparse_parser.add_argument('number_of_cpus', metavar = 'N', type = int, help = "Number of processes to use.")
