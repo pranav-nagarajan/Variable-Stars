@@ -4,7 +4,6 @@ import numpy as np
 import pandas as pd
 import multiprocessing as mp
 from gatspy import periodic
-from astropy.timeseries import LombScargle
 
 parser = argparse.ArgumentParser(description = "Helper for parallel processing.")
 parser.add_argument('number_of_cpus', metavar = 'N', type = int, help = "Number of processes to use.")
@@ -37,12 +36,10 @@ def phase_dispersion_minimization(times, magnitudes, uncertainties, periods):
         numerator = []
         for j in range(1, len(wrap_measurements)):
             difference = (wrap_measurements[j] - wrap_measurements[j - 1])**2
-            # numerator.append(difference * weights[j - 1])
-            numerator.append(difference)
+            numerator.append(difference * weights[j - 1])
 
-        # weighted_mean = np.mean(np.array(measurements) * np.array(weights))
-        # denominator = sum(weights)*sum((np.array(measurements) - weighted_mean)**2)
-        denominator = sum((np.array(measurements) - np.mean(measurements))**2)
+        weighted_mean = np.mean(np.array(measurements) * np.array(weights))
+        denominator = sum(weights)*sum((np.array(measurements) - weighted_mean)**2)
         lafler_kinman = sum(numerator) / denominator
         lafler_kinmans.append(lafler_kinman)
 
@@ -52,12 +49,10 @@ def phase_dispersion_minimization(times, magnitudes, uncertainties, periods):
 def lomb_scargle_analysis(times, magnitudes, uncertainties, min_period = 0.2, max_period = 1.5):
     """Generates the Lomb-Scargle periodogram for a variable star light curve."""
     fit_periods = np.linspace(min_period, max_period, 10000)
-    # model = periodic.LombScargleFast(fit_period = True)
-    # model.optimizer.period_range = (min_period, max_period)
-    # model.fit(times, magnitudes, uncertainties)
-    # return [fit_periods, model.score(fit_periods)]
-    results = LombScargle(times, magnitudes, uncertainties).power(1 / fit_periods)
-    return [fit_periods, results]
+    model = periodic.LombScargleFast(fit_period = True)
+    model.optimizer.period_range = (min_period, max_period)
+    model.fit(times, magnitudes, uncertainties)
+    return [fit_periods, model.score(fit_periods)]
 
 
 def hybrid_statistic(times, magnitudes, uncertainties):
@@ -65,9 +60,9 @@ def hybrid_statistic(times, magnitudes, uncertainties):
     Then, uses the hybrid statistic to find the best period."""
     periods, pi = lomb_scargle_analysis(times, magnitudes, uncertainties)
     theta = phase_dispersion_minimization(times, magnitudes, uncertainties, periods)
-    hybrid_statistic = np.array(50 * pi / theta)
+    hybrid_statistic = np.array(2 * pi / theta)
     best_period = periods[np.argmax(hybrid_statistic)]
-    return [1 / periods, 25 * pi, 2 / theta, hybrid_statistic, best_period]
+    return [1 / periods, pi, 2 / theta, hybrid_statistic, best_period]
 
 
 def filter_data(dataset, passband, **kwargs):
