@@ -14,4 +14,4 @@
 ## Command(s) to run:
 module load python/3.6
 echo "Starting period computation for Sculptor RR Lyrae dataset..."
-python compute_period.py $SLURM_CPUS_PER_TASK sculptor.csv sculptor_periods.csv
+python compute_period.py $SLURM_CPUS_PER_TASK simulated_sculptor.csv sculptor_periods.csv

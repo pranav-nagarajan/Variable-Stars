@@ -16,7 +16,7 @@ number_of_cpus = args.number_of_cpus
 photometric_data = pd.read_csv(args.photometric_data)
 star_catalog = pd.read_csv(args.star_catalog)
 
-def phase_dispersion_minimization(times, magnitudes, uncertainties, periods, weighted = False):
+def phase_dispersion_minimization(times, magnitudes, uncertainties, periods, weighted = True):
     """Implements the formula for calculating the Lafler-Kinman statistic
     using weighted phase dispersion minimization."""
 
@@ -65,7 +65,8 @@ def lomb_scargle_analysis(times, magnitudes, uncertainties, min_period = 0.2, ma
         model.fit(times, magnitudes, uncertainties)
         results = model.score(fit_periods)
     else:
-        results = LombScargle(times, magnitudes, normalization='psd', fit_mean=False).power(1 / fit_periods, method='slow')
+        astropy_model = LombScargle(times, magnitudes, uncertainties, normalization='psd', fit_mean=False)
+        results = astropy_model.power(1 / fit_periods, method='slow')
 
     return [fit_periods, results]
 
