@@ -57,7 +57,7 @@ def phase_dispersion_minimization(times, magnitudes, uncertainties, periods, wei
 def lomb_scargle_analysis(times, magnitudes, uncertainties, min_period = 0.2, max_period = 1.5, version = "astropy"):
     """Generates the Lomb-Scargle periodogram for a variable star light curve."""
 
-    fit_periods = np.linspace(min_period, max_period, 100000)
+    fit_periods = np.linspace(min_period, max_period, 10000)
 
     if version == "gatspy":
         model = periodic.LombScargleFast(fit_period = True)
