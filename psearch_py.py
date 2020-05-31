@@ -486,7 +486,8 @@ def scargle_fast_py( t, c, omega, nfreq ):
     assert (omega.ndim == 1)
     assert (omega.size == nfreq)
     #
-    noise = np.sqrt(np.var(c))
+    # noise = np.sqrt(np.var(c))
+    noise = 1
     #    
     # make times manageable (Scargle periodogram is time-shift invariant)
     time = t-t[0]
@@ -670,7 +671,8 @@ def scargle_py(
     # defaults
     if noise is None:
         assert c.dtype ==  np.float64
-        noise = np.sqrt(np.var(c))
+        # noise = np.sqrt(np.var(c))
+        noise = 1
     if multiple is None: multiple = 0
     if fap is None: fap = 0.01
     # make times manageable (Scargle periodogram is time-shift invariant)

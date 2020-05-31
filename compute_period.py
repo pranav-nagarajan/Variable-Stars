@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import multiprocessing as mp
 from gatspy import periodic
+from astropy.timeseries import LombScargle
 
 parser = argparse.ArgumentParser(description = "Helper for parallel processing.")
 parser.add_argument('number_of_cpus', metavar = 'N', type = int, help = "Number of processes to use.")
@@ -15,7 +16,7 @@ number_of_cpus = args.number_of_cpus
 photometric_data = pd.read_csv(args.photometric_data)
 star_catalog = pd.read_csv(args.star_catalog)
 
-def phase_dispersion_minimization(times, magnitudes, uncertainties, periods):
+def phase_dispersion_minimization(times, magnitudes, uncertainties, periods, weighted = False):
     """Implements the formula for calculating the Lafler-Kinman statistic
     using weighted phase dispersion minimization."""
 
@@ -36,23 +37,38 @@ def phase_dispersion_minimization(times, magnitudes, uncertainties, periods):
         numerator = []
         for j in range(1, len(wrap_measurements)):
             difference = (wrap_measurements[j] - wrap_measurements[j - 1])**2
-            numerator.append(difference * weights[j - 1])
+            if weighted:
+                numerator.append(difference * weights[j - 1])
+            else:
+                numerator.append(difference)
 
-        weighted_mean = np.mean(np.array(measurements) * np.array(weights))
-        denominator = sum(weights)*sum((np.array(measurements) - weighted_mean)**2)
+        if weighted:
+            weighted_mean = np.mean(np.array(measurements) * np.array(weights))
+            denominator = sum(weights)*sum((np.array(measurements) - weighted_mean)**2)
+        else:
+            denominator = sum((np.array(measurements) - np.mean(measurements))**2)
+
         lafler_kinman = sum(numerator) / denominator
         lafler_kinmans.append(lafler_kinman)
 
     return np.array(lafler_kinmans)
 
 
-def lomb_scargle_analysis(times, magnitudes, uncertainties, min_period = 0.2, max_period = 1.5):
+def lomb_scargle_analysis(times, magnitudes, uncertainties, min_period = 0.2, max_period = 1.5, version = "astropy"):
     """Generates the Lomb-Scargle periodogram for a variable star light curve."""
-    fit_periods = np.linspace(min_period, max_period, 10000)
-    model = periodic.LombScargleFast(fit_period = True)
-    model.optimizer.period_range = (min_period, max_period)
-    model.fit(times, magnitudes, uncertainties)
-    return [fit_periods, model.score(fit_periods)]
+
+    fit_periods = np.linspace(min_period, max_period, 100000)
+
+    if version == "gatspy":
+        model = periodic.LombScargleFast(fit_period = True)
+        model.optimizer.period_range = (min_period, max_period)
+        model.fit(times, magnitudes, uncertainties)
+        results = model.score(fit_periods)
+    else:
+        results = LombScargle(times, magnitudes, normalization='psd', fit_mean=False).power(1 / fit_periods, method='slow')
+
+    return [fit_periods, results]
+
 
 
 def hybrid_statistic(times, magnitudes, uncertainties):
