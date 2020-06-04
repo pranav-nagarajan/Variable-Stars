@@ -19,7 +19,7 @@ sn_ratios = np.array([1, 10, 100, 1000])
 all_combos = list(itertools.repeat(list(itertools.product(sparsities, sn_ratios)), 100))
 
 
-def phase_dispersion_minimization(times, magnitudes, uncertainties, periods):
+def phase_dispersion_minimization(times, magnitudes, uncertainties, periods, weighted = True):
     """Implements the formula for calculating the Lafler-Kinman statistic
     using weighted phase dispersion minimization."""
 
@@ -40,23 +40,39 @@ def phase_dispersion_minimization(times, magnitudes, uncertainties, periods):
         numerator = []
         for j in range(1, len(wrap_measurements)):
             difference = (wrap_measurements[j] - wrap_measurements[j - 1])**2
-            numerator.append(difference * weights[j - 1])
+            if weighted:
+                numerator.append(difference * weights[j - 1])
+            else:
+                numerator.append(difference)
 
-        weighted_mean = np.mean(np.array(measurements) * np.array(weights))
-        denominator = sum(weights)*sum((np.array(measurements) - weighted_mean)**2)
+        if weighted:
+            weighted_mean = np.average(np.array(measurements), weights = np.array(weights))
+            denominator = sum(weights)*sum((np.array(measurements) - weighted_mean)**2)
+        else:
+            denominator = sum((np.array(measurements) - np.mean(measurements))**2)
+
         lafler_kinman = sum(numerator) / denominator
         lafler_kinmans.append(lafler_kinman)
 
     return np.array(lafler_kinmans)
 
 
-def lomb_scargle_analysis(times, magnitudes, uncertainties, min_period = 0.2, max_period = 1.5):
+def lomb_scargle_analysis(times, magnitudes, uncertainties, min_period = 0.2, max_period = 1.5, version = "astropy"):
     """Generates the Lomb-Scargle periodogram for a variable star light curve."""
-    fit_periods = np.linspace(min_period, max_period, 10000)
-    model = periodic.LombScargleFast(fit_period = True)
-    model.optimizer.period_range = (min_period, max_period)
-    model.fit(times, magnitudes, uncertainties)
-    return [fit_periods, model.score(fit_periods)]
+
+    fit_periods = np.linspace(min_period, max_period, 100000)
+
+    if version == "gatspy":
+        model = periodic.LombScargleFast(fit_period = True)
+        model.optimizer.period_range = (min_period, max_period)
+        model.fit(times, magnitudes, uncertainties)
+        results = model.score(fit_periods)
+    else:
+        astropy_model = LombScargle(times, magnitudes, uncertainties, normalization='psd', fit_mean=False)
+        results = astropy_model.power(1 / fit_periods, method='slow')
+
+    return [fit_periods, results]
+
 
 
 def hybrid_statistic(times, magnitudes, uncertainties):

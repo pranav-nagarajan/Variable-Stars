@@ -43,7 +43,7 @@ def phase_dispersion_minimization(times, magnitudes, uncertainties, periods, wei
                 numerator.append(difference)
 
         if weighted:
-            weighted_mean = np.mean(np.array(measurements) * np.array(weights))
+            weighted_mean = np.average(np.array(measurements), weights = np.array(weights))
             denominator = sum(weights)*sum((np.array(measurements) - weighted_mean)**2)
         else:
             denominator = sum((np.array(measurements) - np.mean(measurements))**2)
