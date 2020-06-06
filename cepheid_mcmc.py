@@ -29,6 +29,6 @@ with cepheid_model:
 
 with cepheid_model:
 
-    cepheid_trace = pm.sample(draws = 500, tune = 1000, cores = number_of_cpus)
+    cepheid_trace = pm.sample(draws = 500, tune = 1000, cores = number_of_cpus, return_inferencedata = False)
 
 pickle.dump(cepheid_trace, open('cepheid.pkl', 'wb'))
