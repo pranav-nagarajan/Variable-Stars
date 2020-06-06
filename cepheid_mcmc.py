@@ -10,7 +10,7 @@ mcmc_parser.add_argument('number_of_cpus', metavar = 'N', type = int, help = "Nu
 mcmc_parser.add_argument('cepheid_data', type = str, help = "Data for Cepheid stars.")
 mcmc_args = mcmc_parser.parse_args()
 
-lin_reg_table = pd.read_csv(mcmc_args.photometric_data)
+lin_reg_table = pd.read_csv(mcmc_args.cepheid_data)
 number_of_cpus = mcmc_args.number_of_cpus
 
 cepheid_model = pm.Model()
