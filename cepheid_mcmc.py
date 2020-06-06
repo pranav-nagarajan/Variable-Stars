@@ -27,9 +27,10 @@ with cepheid_model:
 
     mod = pm.Normal('mod', mu = mod_mu, sigma = mod_sig, shape = 20)
 
-    zpw = pm.Normal('zpw', mu = 0, sigma = 10)
-    bw = pm.Normal('bw', mu = 0, sigma = 10)
-    zw = pm.Normal('zw', mu = 0, sigma = 10)
+    zpw = pm.Normal('zpw', mu = 0, sigma = 100)
+    bw = pm.Normal('bw', mu = 0, sigma = 100)
+    zw = pm.Normal('zw', mu = 0, sigma = 100)
+
     sigma = pm.HalfNormal('sigma', sigma = 1)
 
     mag = mod[galaxy_id] + zpw + bw * log_period + zw * rel_metal
