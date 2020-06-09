@@ -33,7 +33,7 @@ with cepheid_model:
 
     sigma = pm.HalfNormal('sigma', sigma = 1)
 
-    mag = mod[galaxy_id] + zpw + bw * log_period + zw[galaxy_id] * rel_metal
+    mag = mod[galaxy_id] + zpw + bw * log_period + zw * rel_metal
 
     obs = pm.Normal('obs', mu = mag, sigma = sigma, observed = obs_mag)
 

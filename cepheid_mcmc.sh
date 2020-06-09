@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=sparse
+#SBATCH --job-name=mcmc
 #SBATCH --account=co_dweisz
 #SBATCH --partition=savio2
 #SBATCH --nodes=1
