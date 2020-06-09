@@ -22,10 +22,10 @@ cepheid_model = pm.Model()
 
 with cepheid_model:
 
-    mod = pm.Uniform('mod', lower = -15, upper = 15, shape = 20)
+    mod = pm.Uniform('mod', lower = -10, upper = 10, shape = 20)
 
-    zpw = pm.Uniform('zpw', lower = 20, upper = 30)
-    bw = pm.Uniform('bw', lower = -10, upper = 0)
+    zpw = pm.Uniform('zpw', lower = 25.8, upper = 27)
+    bw = pm.Uniform('bw', lower = -10, upper = 10)
     zw = pm.Uniform('zw', lower = -10, upper = 10)
 
     sigma = pm.HalfNormal('sigma', sigma = 1)
