@@ -22,23 +22,22 @@ cepheid_model = pm.Model()
 
 with cepheid_model:
 
-    mod_mu = pm.Normal('mod_mu', mu = 0, sigma = 10)
+    mod_mu = pm.Uniform('mod_mu', lower = -10, upper = 10)
     mod_sig = pm.HalfNormal('mod_sigma', sigma = 1)
 
     mod = pm.Normal('mod', mu = mod_mu, sigma = mod_sig, shape = 20)
 
-    zpw = pm.Normal('zpw', mu = 0, sigma = 10)
-    bw = pm.Normal('bw', mu = 0, sigma = 10)
-    zw = pm.Normal('zw', mu = 0, sigma = 10)
+    zpw = pm.Uniform('zpw', lower = 24, upper = 27)
+    bw = pm.Uniform('bw', lower = -10, upper = 10)
+    zw = pm.Uniform('zw', lower = -10, upper = 10)
 
     sigma = pm.HalfNormal('sigma', sigma = 1)
 
-    mag = mod[galaxy_id] + zpw + bw * log_period + zw * rel_metal
+    mag = mod[galaxy_id] + zpw + bw * log_period + zw[galaxy_id] * rel_metal
 
     obs = pm.Normal('obs', mu = mag, sigma = sigma, observed = obs_mag)
 
 with cepheid_model:
-
     cepheid_trace = pm.sample(cores = number_of_cpus, return_inferencedata = False)
 
 pickle.dump(cepheid_trace, open('cepheid.pkl', 'wb'))
