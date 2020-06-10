@@ -24,9 +24,9 @@ with cepheid_model:
 
     mod = pm.Uniform('mod', lower = -10, upper = 10, shape = 20)
 
-    zpw = pm.Uniform('zpw', lower = 25.8, upper = 27)
-    bw = pm.Uniform('bw', lower = -10, upper = 10)
-    zw = pm.Uniform('zw', lower = -10, upper = 10)
+    zpw = pm.Normal('zpw', mu = 26, sigma = 3)
+    bw = pm.Normal('bw', mu = -5, sigma = 10)
+    zw = pm.Normal('zw', mu = 0, sigma = 10)
 
     sigma = pm.HalfNormal('sigma', sigma = 1)
 
