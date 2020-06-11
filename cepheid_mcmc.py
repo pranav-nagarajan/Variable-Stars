@@ -24,11 +24,11 @@ with cepheid_model:
 
     mod = pm.Uniform('mod', lower = -10, upper = 10, shape = 20)
 
-    zpw = pm.Uniform('zpw', lower = -30, upper = 30)
+    zpw = pm.Uniform('zpw', lower = 20, upper = 30)
     bw = pm.Uniform('bw', lower = -10, upper = 10)
     zw = pm.Uniform('zw', lower = -10, upper = 10)
 
-    sigma = pm.HalfNormal('sigma', sigma = 10)
+    sigma = pm.HalfNormal('sigma', sigma = 1)
 
     mag = mod[galaxy_id] + zpw + bw * log_period + zw * rel_metal
 
