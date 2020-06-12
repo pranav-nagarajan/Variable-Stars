@@ -40,10 +40,10 @@ number_of_cpus = mcmc_args.number_of_cpus
 #     mag = rel_mod + zpw + bw * log_period + zw * rel_metal
 #
 #     obs = pm.Normal('obs', mu = mag, sd = sigma, observed = obs_mag)
-
+#
 # with cepheid_model:
 #     cepheid_trace = pm.sample(cores = number_of_cpus, return_inferencedata = False)
-
+#
 # pickle.dump(cepheid_trace, open('cepheid.pkl', 'wb'))
 
 NGC_model = pm.Model()
@@ -63,6 +63,6 @@ with NGC_model:
     obs = pm.Normal('obs', mu = mag, sd = sigma, observed = lin_reg_4258['Wesenheit Magnitude'].values)
 
 with NGC_model:
-    NGC_trace = pm.sample(return_inferencedata = False)
+    NGC_trace = pm.sample(draws = 500, tune = 1000)
 
 pickle.dump(NGC_trace, open('NGC_4258.pkl', 'wb'))
