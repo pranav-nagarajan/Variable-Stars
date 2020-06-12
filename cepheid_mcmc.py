@@ -63,6 +63,6 @@ with NGC_model:
     obs = pm.Normal('obs', mu = mag, sd = sigma, observed = lin_reg_4258['Wesenheit Magnitude'].values)
 
 with NGC_model:
-    NGC_trace = pm.sample(draws = 500, tune = 1000, cores = number_of_cpus, return_inferencedata = False)
+    NGC_trace = pm.sample(return_inferencedata = False)
 
 pickle.dump(NGC_trace, open('NGC_4258.pkl', 'wb'))
