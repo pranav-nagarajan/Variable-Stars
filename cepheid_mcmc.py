@@ -19,13 +19,14 @@ rel_metal = lin_reg_table['Relative Metallicity'].values
 obs_mag = lin_reg_table['Wesenheit Magnitude'].values
 galaxy_id = lin_reg_table['Galaxy Code'].values
 
+num_gals = len(lin_reg_table['Galaxy'].unique())
 mask = np.array(lin_reg_table['Galaxy'] == 'N4258')
 
 cepheid_model = pm.Model()
 
 with cepheid_model:
 
-    mod = pm.Uniform('mod', lower = -10, upper = 10, shape = 19)
+    mod = pm.Uniform('mod', lower = -10, upper = 10, shape = (num_gals - 1))
     rel_mod = tt.set_subtensor(mod[galaxy_id - 1][mask.nonzero()], 0)
 
     zpw = pm.Uniform('zpw', lower = 20, upper = 30)
