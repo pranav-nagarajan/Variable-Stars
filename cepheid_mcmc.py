@@ -25,8 +25,8 @@ cepheid_model = pm.Model()
 
 with cepheid_model:
 
-    mod = pm.Uniform('mod', lower = -10, upper = 10, shape = 20)
-    rel_mod = tt.set_subtensor(mod[galaxy_id][mask.nonzero()], 0)
+    mod = pm.Uniform('mod', lower = -10, upper = 10, shape = 19)
+    rel_mod = tt.set_subtensor(mod[galaxy_id - 1][mask.nonzero()], 0)
 
     zpw = pm.Uniform('zpw', lower = 20, upper = 30)
     bw = pm.Uniform('bw', lower = -10, upper = 10)
