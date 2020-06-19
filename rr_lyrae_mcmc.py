@@ -8,9 +8,9 @@ import theano.tensor as tt
 
 mcmc_parser = argparse.ArgumentParser(description = "Helper for parallel processing.")
 mcmc_parser.add_argument('--num_cpus', type = int, help = "Number of processes to use.")
-mcmc_parser.add_argument('--data', action = append, type = str, help = "Data for RR Lyrae stars.")
+mcmc_parser.add_argument('--data', action = "append", type = str, help = "Data for RR Lyrae stars.")
 mcmc_parser.add_argument('--zero_point', nargs = 2, type = float, help = "Theoretical zero point.")
-mcmc_parser.add_argument('--metal', nargs = 2, action = append, type = float, help = "Mean metallicity in galaxy.")
+mcmc_parser.add_argument('--metal', nargs = 2, action = "append", type = float, help = "Mean metallicity in galaxy.")
 mcmc_args = mcmc_parser.parse_args()
 
 number_of_cpus = mcmc_args.num_cpus
