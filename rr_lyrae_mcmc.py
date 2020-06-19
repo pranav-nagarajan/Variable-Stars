@@ -45,7 +45,7 @@ with rr_lyrae_model:
     metal_slope = pm.Normal('metallicity_slope', mu = 0, sd = 10)
 
     initial_metal = pm.Normal('metallicity', mu = metals[0][0], sd = metals[0][1], shape = star_nums[0])
-    mag = modulus + zero_point + period_slope * log_periods[0] + metal_slope * metallicity[star_ids[0]]
+    mag = modulus + zero_point + period_slope * log_periods[0] + metal_slope * initial_metal[star_ids[0]]
     obs_mag = obs_mags[0]
 
     for i in range(1, len(log_periods)):
