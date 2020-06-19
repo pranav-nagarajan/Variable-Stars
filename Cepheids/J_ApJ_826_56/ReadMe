@@ -1,0 +1,209 @@
+J/ApJ/826/56     HST/WFC3 obs. of Cepheids in SN Ia host gal.     (Riess+, 2016)
+================================================================================
+A 2.4% determination of the local value of the Hubble constant.
+    Riess A.G., Macri L.M., Hoffmann S.L., Scolnic D., Casertano S.,
+    Filippenko A.V., Tucker B.E., Reid M.J., Jones D.O., Silverman J.M.,
+    Chornock R., Challis P., Yuan W., Brown P.J., Foley R.J.
+   <Astrophys. J., 826, 56-56 (2016)>
+   =2016ApJ...826...56R    (SIMBAD/NED BibCode)
+================================================================================
+ADC_Keywords: Photometry, HST ; Supernovae ; Stars, variable ; Galaxies, IR
+Keywords: cosmological parameters; cosmology: observations; distance scale;
+          galaxies: distances and redshifts
+
+Abstract:
+    We use the Wide Field Camera 3 (WFC3) on the Hubble Space Telescope
+    (HST) to reduce the uncertainty in the local value of the Hubble
+    constant from 3.3% to 2.4%. The bulk of this improvement comes from
+    new near-infrared (NIR) observations of Cepheid variables in 11 host
+    galaxies of recent type Ia supernovae (SNe Ia), more than doubling the
+    sample of reliable SNe Ia having a Cepheid-calibrated distance to a
+    total of 19; these in turn leverage the magnitude-redshift relation
+    based on ~300 SNe Ia at z<0.15. All 19 hosts as well as the megamaser
+    system NGC 4258 have been observed with WFC3 in the optical and NIR,
+    thus nullifying cross-instrument zeropoint errors in the relative
+    distance estimates from Cepheids. Other noteworthy improvements
+    include a 33% reduction in the systematic uncertainty in the maser
+    distance to NGC 4258, a larger sample of Cepheids in the Large
+    Magellanic Cloud (LMC), a more robust distance to the LMC based on
+    late-type detached eclipsing binaries (DEBs), HST observations of
+    Cepheids in M31, and new HST-based trigonometric parallaxes for Milky
+    Way (MW) Cepheids. We consider four geometric distance calibrations of
+    Cepheids: (i) megamasers in NGC 4258, (ii) 8 DEBs in the LMC, (iii) 15
+    MW Cepheids with parallaxes measured with HST/FGS, HST/WFC3 spatial
+    scanning and/or Hipparcos, and (iv) 2 DEBs in M31. The Hubble constant
+    from each is 72.25+/-2.51, 72.04+/-2.67, 76.18+/-2.37, and
+    74.50+/-3.27km/s/Mpc, respectively. Our best estimate of
+    H_0_=73.24+/-1.74km/s/Mpc combines the anchors NGC 4258, MW, and LMC,
+    yielding a 2.4% determination (all quoted uncertainties include fully
+    propagated statistical and systematic components). This value is
+    3.4{sigma} higher than 66.93+/-0.62km/s/Mpc predicted by {Lambda}CDM
+    with 3 neutrino flavors having a mass of 0.06eV and the new Planck
+    data, but the discrepancy reduces to 2.1{sigma} relative to the
+    prediction of 69.3+/-0.7km/s/Mpc based on the comparably precise
+    combination of WMAP+ACT+SPT+BAO observations, suggesting that
+    systematic uncertainties in CMB radiation measurements may play a role
+    in the tension. If we take the conflict between Planck high-redshift
+    measurements and our local determination of H_0_ at face value, one
+    plausible explanation could involve an additional source of dark
+    radiation in the early universe in the range of {Delta}N_eff_~0.4-1.
+    We anticipate further significant improvements in H_0_ from upcoming
+    parallax measurements of long-period MW Cepheids.
+
+Description:
+    The SH0ES (SNe, H0, for the Equation of State of dark energy) program
+    has been selecting SNe Ia with the qualities detailed in section 2 to
+    ensure a reliable calibration of their fiducial luminosity. The result
+    is a nearly complete sample of 19 objects observed between 1993 and
+    2015 (see Table 1).
+
+File Summary:
+--------------------------------------------------------------------------------
+ FileName      Lrecl  Records   Explanations
+--------------------------------------------------------------------------------
+ReadMe            80        .   This file
+table1.dat        50       20   Cepheid hosts observed with HST/WFC3
+table4.dat        68     1486   HST WFC3-IR Cepheids
+table8.dat       110      210   Fits for H0
+--------------------------------------------------------------------------------
+
+See also:
+ B/hst : HST Archived Exposures Catalog (STScI, 2007)
+ J/ApJ/817/128   : Megamaser Cosmology Project. VIII. NGC5765B (Gao+, 2016)
+ J/ApJ/812/31    : Local Star Formation effects on type Ia SNe (Jones+, 2015)
+ J/MNRAS/451/724 : PHAT. XIII. M31 Cepheid P-L relation (Wagner-Kaiser+, 2015)
+ J/AJ/149/117    : LMC infrared survey. I. Photometry of Cepheids (Macri+, 2015)
+ J/ApJ/799/144   : M31 Cepheids in near-IR (Kodric+, 2015)
+ J/A+A/568/A22   : Joint analysis of the SDSS-II & SNLS SNe Ia (Betoule+, 2014)
+ J/ApJ/777/79    : HST photometry of Cepheid candidates in M101 (Mager+, 2013)
+ J/ApJS/208/20   : Nine-year WMAP point source catalogs (Bennett+, 2013)
+ J/ApJ/745/156   : M31 Cepheids with HST/WFC3 (Riess+, 2012)
+ J/ApJ/730/119   : HST/WFC3 obs. of Cepheids in SN Ia hosts (Riess+, 2011)
+ J/A+A/523/A7    : Light curves of type Ia supernovae in SNLS (Guy+, 2010)
+ J/ApJ/722/566   : Host gal. of SNe Ia in SDSS-II SN survey (Lampeitl+, 2010)
+ J/MNRAS/406/782 : Type Ia supernovae luminosities (Sullivan+, 2010)
+ J/ApJ/700/1097  : Light curve parameters of SN Ia (Hicken+, 2009)
+ J/ApJS/183/109  : Cepheids in 3 host galaxies (Riess+, 2009)
+ J/ApJ/700/331   : Light curves of type Ia supernovae (CfA3) (Hicken+, 2009)
+ J/ApJ/699/539   : Cepheids in SN-Ia host galaxies (Riess+, 2009)
+ J/AcA/58/163    : VI light curves of LMC classical Cepheids (Soszynski+, 2008)
+ J/ApJ/659/1040  : VLBI monitoring of NGC 4258 (Argon+, 2007)
+ J/ApJ/659/122   : Improved distances to type Ia supernovae (Jha+, 2007)
+ J/ApJ/652/1133  : BVI photometry of NGC 4258 Cepheids (Macri+, 2006)
+ J/ApJ/645/488   : SN type Ia luminosities (Wang+, 2006)
+ J/ApJ/627/579   : Photometry of variables in NGC 3370 (Riess+, 2005)
+ J/AJ/128/2239   : JHKs photometry of 92 LMC Cepheids (Persson+, 2004)
+ J/ApJ/591/L111  : Period of Cepheids in M 83 (Bonanos+, 2003)
+ J/AJ/115/1016   : M31B eclipsing binaries and Cepheids (Kaluzny+ 1998)
+
+Byte-by-byte Description of file: table1.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units     Label     Explanations
+--------------------------------------------------------------------------------
+   1-  5  A5    ---       Gal       Galaxy name
+       7  A1    ---     f_Gal       [d] Flag on Gal (1)
+   9- 14  A6    ---       SN        SN Ia name
+  16- 20  I5    s         IRexp     NIR exposure time obtained with WFC3/IR
+                                     and F160W
+  22- 26  I5    s         Oexp      Optical exposure time (2)
+  28- 38  A11   ---       PID       Proposal IDs
+  40- 50  A11   "Y/M/D"   Date      UT date of first WFC3/IR observation
+--------------------------------------------------------------------------------
+Note (1):
+  d = Includes time-series data from an earlier program and a different camera;
+      see Figure 2.
+Note (2): Data obtained with WFC3/UVIS and F555W, F814W, or F350LP used to
+          find and measure the flux of Cepheids.
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table4.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label     Explanations
+--------------------------------------------------------------------------------
+   1-  5  A5    ---     Gal       Observed field
+   7- 16  F10.6 deg     RAdeg     Right ascension in decimal degrees (J2000)
+  18- 29  F12.8 deg     DEdeg     Declination in decimal degrees (J2000)
+  31- 38  A8    ---     ID        Cepheid identifier
+  40- 45  F6.3  d       Per       [3/99] Cepheid period
+  47- 50  F4.2  mag     V-I       [0.5/2.5] HST/WFC3 F555W-F814W color index
+  52- 56  F5.2  mag     F160W     [16/26.8] HST/WFC3 F160W magnitude
+  58- 61  F4.2  mag     sigTot    [0.1/0.8] Total statistical uncertainty in
+                                   Cepheid magnitude
+  64- 68  F5.3  [-]     [O/H]     [8.4/9.4] Metallicity estimate, 12+log(0/H),
+                                   position based, Hoffmann et al. in prep.
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table8.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units      Label Explanations
+--------------------------------------------------------------------------------
+   1-  4 F4.2   ---        chi2  [0.8/1.5] Reduced {chi}^2^_dof_
+   6- 10 F5.2   km/s/Mpc   H0    [70.7/79.3] Hubble constant
+  12- 15 F4.2   km/s/Mpc e_H0    [1/4] Uncertainty in H0 (1)
+  19- 21 A3     ---        Anc   Anchors (2)
+  23- 24 A2     ---        Brk   Break in Cepheid P-L relation (3)
+  26- 26 A1     ---        Clp   Clipping procedure (4)
+  28- 30 F3.1   ---        Clt   [2.7/3.5]? Clipping threshold, {sigma};
+                                  Blank=No clipping
+  32- 32 A1     ---        Opt   [YN] Optical completeness required
+  34- 36 A3     ---        PL    Form of Cepheid P-L relation used (5)
+  38- 38 A1     ---        R     [CFN] Redding Law (6)
+  40- 42 F3.1   ---        RV    [2.5/3.3] Extinction-law parameter
+  44- 47 I4     ---        N     [1203/3138] Number of Cepheids fit
+  49- 49 A1     ---        Zs    [BZ] Metallicity scale (7)
+  51- 55 F5.2   ---        gamma [-0.3/-0.06]? Change in Wesenheit mag/log(O/H)
+  57- 60 F4.2   ---      e_gamma [0.05/0.2]? Uncertainty in {gamma}
+  62- 67 F6.3   ---        b     [-3.4/-2.9]? Slope of Cepheid P-L for all P in
+                                  no-break variants; for P>10d for two-slope
+                                  variants (in mag/[-])
+  69- 72 F4.2   ---      e_b     [0.01/0.04]? Uncertainty in b
+  74- 79 F6.3   ---        bl    [-4.2/-3.1]? Slope of Cepheid P-L for P<10d
+                                  (in mag/[-])
+  81- 84 F4.2   ---      e_bl    [0.02/0.06]? Uncertainty in bl
+  86- 86 A1     ---        SN    [MS] Light-curve fitter (S=SALT or M=MLCS2k2)
+  88- 93 F6.4   ---        zm    [0.01/0.03] Minimum z used in SN Hubble diagram
+  95-100 F6.2   mag        MX0   [-19.4/-19] SN absolute magnitude (8)
+ 102-108 F7.5   0.2mag     aX    [0.70/0.72] Intercept of SN Hubble diagram (8)
+ 110-110 A1     ---        Gal   [ALS] SN host galaxy sample;
+                                  A=All, S=Spiral, L=high LSF
+--------------------------------------------------------------------------------
+Note (1): H_0_ error listed from fit for M_X_^0^ in equation 9 (section 3.1.1)
+          or m_x,4258_^0^ in equation 4 (section 3) only.
+Note (2): Anchors as follows:
+    N   = NGC 4258 Masers;
+    M   = Milky Way Parallaxes;
+    L   = LMC detached eclipsing binaries;
+    NML = primary fit using all three;
+    A   = NML+M31 detached eclipsing binaries.
+Note (3): Break in P-L relation as follows:
+    Y  = two-slope solution, unitless;
+    N  = single-slope solution, unitless;
+    10 = single slope restricted to P>10d, unit=d;
+    60 = single slope restricted to P<60d, unit=d.
+Note (4): Clipping procedure as follows:
+    G = global;
+    I = individual;
+    1 = global but removing single largest outlier at a time.
+Note (5): Form of P-L relation as follows:
+    W_H = NIR Wesenheit;
+    H   = NIR without extinction correction;
+    W_I = Optical Wesenheit.
+Note (6): Reddening law as follows:
+    F   = Fitzpatrick (1999PASP..111...63F);
+    C   = Cardelli et al. (1989ApJ...345..245C);
+    N   = Nataf et al. (2016MNRAS.456.2692N).
+Note (7): Metallicity scale as follows:
+    Z = traditional R_23 method, Zaritsky et al. (1994ApJ...420...87Z);
+    B = T_e method, Bresolin (2011ApJ...729...56B).
+Note (8): X in MX0 and aX stands for B or V depending on the SN fitter,
+          see text.
+--------------------------------------------------------------------------------
+
+History:
+    From electronic version of the journal
+
+References:
+    Riess et al.  Companion Paper.  2016ApJ...830...10H  Cat. J/ApJ/830/10
+
+================================================================================
+(End)                  Prepared by [AAS], Emmanuelle Perret [CDS]    22-Sep-2016
