@@ -44,18 +44,16 @@ with rr_lyrae_model:
     period_slope = pm.Normal('period_slope', mu = 0, sd = 10)
     metal_slope = pm.Normal('metallicity_slope', mu = 0, sd = 10)
 
-    initial_metal = pm.Normal('metallicity', mu = metals[0][0], sd = metals[0][1], shape = star_nums[0])
-    mag = modulus + zero_point + period_slope * log_periods[0] + metal_slope * initial_metal[star_ids[0]]
-    obs_mag = obs_mags[0]
+    magnitudes = []
 
-    for i in range(1, len(log_periods)):
+    for i in range(len(log_periods)):
 
-        metallicity = pm.Normal('metallicity', mu = metals[i][0], sd = metals[i][1], shape = star_nums[i])
-        magnitude = modulus + zero_point + period_slope * log_periods[i] + metal_slope * metallicity[star_ids[i]]
-        mag = pm.math.concatenate((mag, magnitude))
-        obs_mag = pm.math.concatenate((obs_mag, obs_mags[i]))
+        magnitudes.append(modulus + zero_point + period_slope * log_periods[i] + metal_slope *
+                          pm.Normal('metallicity', mu = metals[i][0], sd = metals[i][1],
+                                    shape = star_nums[i])[star_ids[i]])
 
-    obs = pm.Normal('obs', mu = magnitude, sd = sigma, observed = obs_mag)
+    modeled, observed = pm.math.concatenate(magnitudes), pm.math.concatenate(obs_mags)
+    obs = pm.Normal('obs', mu = modeled, sd = sigma, observed = observed)
 
 with rr_lyrae_model:
 
