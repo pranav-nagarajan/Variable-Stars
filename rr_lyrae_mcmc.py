@@ -30,7 +30,7 @@ star_ids = []
 for lin_reg_table in lin_reg_tables:
     log_periods.append(lin_reg_table['Log Period'].values)
     obs_mags.append(lin_reg_table['Wesenheit Magnitude'].values)
-    star_nums.append(lin_reg_table['Star'].unique())
+    star_nums.append(len(lin_reg_table['Star'].unique()))
     star_ids.append(lin_reg_table['Star Code'].values)
 
 rr_lyrae_model = pm.Model()
