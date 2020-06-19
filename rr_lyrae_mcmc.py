@@ -17,7 +17,7 @@ number_of_cpus = mcmc_args.num_cpus
 
 lin_reg_tables = []
 for table in mcmc_args.data:
-    lin_reg_tables.append(pd.read_csv(data))
+    lin_reg_tables.append(pd.read_csv(table))
 
 metals = mcmc_args.metal
 zp, zp_error = mcmc_args.zero_point[0], mcmc_args.zero_point[1]
