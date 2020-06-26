@@ -8,8 +8,8 @@ import theano.tensor as tt
 
 mcmc_parser = argparse.ArgumentParser(description = "Helper for parallel processing.")
 mcmc_parser.add_argument('--num_cpus', type = int, help = "Number of processes to use.")
-mcmc_parser.add_argument('--data', action = "append", type = str, help = "Data for RR Lyrae stars.")
 mcmc_parser.add_argument('--zero_point', nargs = 2, type = float, help = "Theoretical zero point.")
+mcmc_parser.add_argument('--data', action = "append", type = str, help = "Data for RR Lyrae stars.")
 mcmc_parser.add_argument('--metal', nargs = 2, action = "append", type = float, help = "Mean metallicity in galaxy.")
 mcmc_args = mcmc_parser.parse_args()
 
@@ -42,7 +42,7 @@ with rr_lyrae_model:
 
     zero_point = pm.Normal('zero_point', mu = zp, sd = zp_error)
     period_slope = pm.Normal('period_slope', mu = 0, sd = 10)
-    metal_slope = pm.Normal('metallicity_slope', mu = -0.02, sd = 0.001)
+    metal_slope = pm.Normal('metallicity_slope', mu = 0, sd = 10)
 
     magnitudes = []
 
