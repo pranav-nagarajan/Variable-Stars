@@ -37,7 +37,11 @@ rr_lyrae_model = pm.Model()
 
 with rr_lyrae_model:
 
-    modulus = pm.Normal('modulus', mu = 20, sd = 10, shape = len(lin_reg_tables))
+    modulus_0 = pm.Normal('modulus_0', mu = 20.6, sd = 0.1)
+    modulus_1 = pm.Normal('modulus_1', mu = 20, sd = 10)
+    modulus_2 = pm.Normal('modulus_2', mu = 20, sd = 10)
+    modulus_3 = pm.Normal('modulus_3', mu = 22.2, sd = 0.1)
+    modulus = pm.math.concatenate([modulus_0, modulus_1, modulus_2, modulus_3])
     sigma = pm.HalfNormal('sigma', sd = 1)
 
     zero_point = pm.Normal('zero_point', mu = zp, sd = zp_error)
