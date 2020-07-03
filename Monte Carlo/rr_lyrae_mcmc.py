@@ -37,16 +37,12 @@ rr_lyrae_model = pm.Model()
 
 with rr_lyrae_model:
 
-    modulus_0 = pm.Normal('modulus_0', mu = 20.6, sd = 0.1, shape = 1)
-    modulus_1 = pm.Normal('modulus_1', mu = 20, sd = 10, shape = 1)
-    modulus_2 = pm.Normal('modulus_2', mu = 20, sd = 10, shape = 1)
-    modulus_3 = pm.Normal('modulus_3', mu = 22.2, sd = 0.1, shape = 1)
-    modulus = pm.math.concatenate([modulus_0, modulus_1, modulus_2, modulus_3])
+    modulus = pm.Normal('modulus', mu = 20, sd = 10, shape = len(lin_reg_tables))
     sigma = pm.HalfNormal('sigma', sd = 1)
 
     zero_point = pm.Normal('zero_point', mu = zp, sd = zp_error)
     period_slope = pm.Normal('period_slope', mu = 0, sd = 10)
-    metal_slope = pm.Normal('metallicity_slope', mu = 0, sd = 0.5)
+    metal_slope = pm.Normal('metallicity_slope', mu = -0.2, sd = 0.1)
 
     magnitudes = []
 
@@ -64,3 +60,4 @@ with rr_lyrae_model:
     rr_lyrae_trace = pm.sample(cores = number_of_cpus)
 
 pickle.dump(rr_lyrae_trace, open('rr_lyrae.pkl', 'wb'))
+pickle.dump(rr_lyrae_model.logp, open('rr_lyrae_logp.pkl', 'wb'))
