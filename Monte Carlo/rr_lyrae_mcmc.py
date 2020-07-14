@@ -11,6 +11,7 @@ mcmc_parser.add_argument('--num_cpus', type = int, help = "Number of processes t
 mcmc_parser.add_argument('--zero_point', nargs = 2, type = float, help = "Theoretical zero point.")
 mcmc_parser.add_argument('--data', action = "append", type = str, help = "Data for RR Lyrae stars.")
 mcmc_parser.add_argument('--metal', nargs = 2, action = "append", type = float, help = "Mean metallicity in galaxy.")
+mcmc_parser.add_argument('--calibrate', type = str, help = "Calibration data.")
 mcmc_args = mcmc_parser.parse_args()
 
 number_of_cpus = mcmc_args.num_cpus
@@ -33,6 +34,14 @@ for lin_reg_table in lin_reg_tables:
     star_nums.append(len(lin_reg_table['Star'].unique()))
     star_ids.append(lin_reg_table['Star Code'].values)
 
+calibrate = mcmc_args.calibrate
+field_periods = np.array(calibrate['Log Period'])
+field_moduli = np.array(calibrate['Distance Modulus'])
+field_metal = np.array(calibrate['Metallicity'])
+
+field_mags = np.array(calibrate['Wesenheit Magnitude'])
+obs_mags.append(field_mags)
+
 rr_lyrae_model = pm.Model()
 
 with rr_lyrae_model:
@@ -44,7 +53,14 @@ with rr_lyrae_model:
     period_slope = pm.Normal('period_slope', mu = 0, sd = 10)
     metal_slope = pm.Normal('metallicity_slope', mu = 0, sd = 10)
 
+    zp_two = pm.Normal('calibration_point', mu = 0, sd = 0.2)
+
     magnitudes = []
+
+    for i in range(len(calibrate['Star Code'])):
+
+        magnitudes.append(field_moduli[i] + zp_two + period_slope * field_periods[i] +
+                          metal_slope * field_metal[i])
 
     for i in range(len(log_periods)):
 
@@ -60,4 +76,3 @@ with rr_lyrae_model:
     rr_lyrae_trace = pm.sample(cores = number_of_cpus)
 
 pickle.dump(rr_lyrae_trace, open('rr_lyrae.pkl', 'wb'))
-pickle.dump(rr_lyrae_model.logp, open('rr_lyrae_logp.pkl', 'wb'))
