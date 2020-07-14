@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=sculptor
+#SBATCH --job-name=hubble
 #SBATCH --account=co_dweisz
 #SBATCH --partition=savio2
 #SBATCH --nodes=1
@@ -13,5 +13,5 @@
 
 ## Command(s) to run:
 module load python/3.6
-echo "Starting period computation for Sculptor RR Lyrae dataset..."
-python ../Periods/compute_period.py $SLURM_CPUS_PER_TASK sculptor.csv sculptor_periods.csv
+echo "Starting period computation for Andromeda Satellite RR Lyrae dataset..."
+python ../Periods/compute_period.py $SLURM_CPUS_PER_TASK field.csv field_periods.csv

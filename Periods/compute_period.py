@@ -143,7 +143,7 @@ def compute_period(row, dataset):
 
 pool = mp.Pool(processes = number_of_cpus)
 iterables = [(row, photometric_data) for (index, row) in star_catalog.iterrows()]
-hubble_results = pool.starmap(compute_period, iterables)
+results = pool.starmap(compute_period, iterables)
 pool.close()
 
-pickle.dump(hubble_results, open("computed_periods.pkl", "wb"))
+pickle.dump(results, open("computed_periods.pkl", "wb"))

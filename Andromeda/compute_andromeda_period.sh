@@ -14,4 +14,4 @@
 ## Command(s) to run:
 module load python/3.6
 echo "Starting period computation for Andromeda Satellite RR Lyrae dataset..."
-python compute_period.py $SLURM_CPUS_PER_TASK andromeda.csv andromeda_periods.csv
+python ../Periods/compute_period.py $SLURM_CPUS_PER_TASK andromeda.csv andromeda_periods.csv
