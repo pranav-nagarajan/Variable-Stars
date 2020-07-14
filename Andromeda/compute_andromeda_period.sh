@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=hubble
+#SBATCH --job-name=andromeda
 #SBATCH --account=co_dweisz
 #SBATCH --partition=savio2
 #SBATCH --nodes=1

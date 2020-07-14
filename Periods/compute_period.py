@@ -111,7 +111,13 @@ def plot_periodogram(dataset, passband, **kwargs):
 def find_best_period(dataset, **kwargs):
     """Find the best period by averaging across the results from each passband."""
 
-    passbands = dataset["Passband"].unique()
+    interim = dataset
+    if 'galaxy' in kwargs.keys():
+        interim = interim[interim['Galaxy'] == kwargs.get('galaxy')]
+    if 'star' in kwargs.keys():
+        interim = interim[interim['Star'] == kwargs.get('star')]
+
+    passbands = interim["Passband"].unique()
     freqs, ls_powers, lk_powers, hybrid_powers, period = plot_periodogram(dataset, passbands[0], **kwargs)
     print('\n')
 
