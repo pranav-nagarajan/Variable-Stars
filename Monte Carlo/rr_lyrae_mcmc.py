@@ -53,20 +53,20 @@ with rr_lyrae_model:
     period_slope = pm.Normal('period_slope', mu = 0, sd = 10)
     metal_slope = pm.Normal('metallicity_slope', mu = 0, sd = 10)
 
-    zp_two = pm.Normal('calibration_point', mu = 0, sd = 0.2)
+    field_zero_point = pm.Normal('calibration_point', mu = 0, sd = 0.2)
 
     magnitudes = []
-
-    for i in range(len(calibrate['Star Code'])):
-
-        magnitudes.append(field_moduli[i] + zp_two + period_slope * field_periods[i] +
-                          metal_slope * field_metal[i])
 
     for i in range(len(log_periods)):
 
         metal = pm.Normal(f'metallicity_{i}', mu = metals[i][0], sd = metals[i][1], shape = star_nums[i])
         magnitudes.append(modulus[i] + zero_point + period_slope * log_periods[i] +
                           metal_slope * metal[star_ids[i]])
+
+    for i in range(len(calibrate['Star Code'])):
+
+        magnitudes.append(field_moduli[i] + field_zero_point + period_slope * field_periods[i] +
+                          metal_slope * field_metal[i])
 
     modeled, observed = pm.math.concatenate(magnitudes), pm.math.concatenate(obs_mags)
     obs = pm.Normal('obs', mu = modeled, sd = sigma, observed = observed)
