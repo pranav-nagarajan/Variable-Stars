@@ -10,7 +10,7 @@ mcmc_parser = argparse.ArgumentParser(description = "Helper for parallel process
 mcmc_parser.add_argument('--num_cpus', type = int, help = "Number of processes to use.")
 mcmc_parser.add_argument('--zero_point', nargs = 2, type = float, help = "Theoretical zero point.")
 mcmc_parser.add_argument('--data', action = "append", type = str, help = "Data for RR Lyrae stars.")
-mcmc_parser.add_argument('--metal', nargs = 2, action = "append", type = float, help = "Mean metallicity in galaxy.")
+mcmc_parser.add_argument('--metal', nargs = 2, action = "append", type = float, help = "Mean metallicity.")
 mcmc_parser.add_argument('--calibrate', type = str, help = "Calibration data.")
 mcmc_args = mcmc_parser.parse_args()
 
