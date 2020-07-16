@@ -14,4 +14,4 @@
 ## Command(s) to run:
 module load python/3.6
 echo "Starting MCMC for RR Lyrae P-L Relation..."
-python rr_lyrae_mcmc.py --num_cpus $SLURM_CPUS_PER_TASK --calibrate milky_way_mcmc.csv
+python rr_lyrae_calibration.py --num_cpus $SLURM_CPUS_PER_TASK --calibrate milky_way_mcmc.csv
