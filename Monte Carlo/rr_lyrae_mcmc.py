@@ -53,7 +53,7 @@ with rr_lyrae_model:
     period_slope = pm.Normal('period_slope', mu = 0, sd = 10)
     metal_slope = pm.Normal('metallicity_slope', mu = 0, sd = 10)
 
-    field_zero_point = pm.Normal('calibration_point', mu = 0, sd = 0.2)
+    field_zero_point = pm.Normal('calibration_point', mu = 0, sd = 2)
 
     magnitudes = []
 
