@@ -14,11 +14,11 @@ mcmc_args = mcmc_parser.parse_args()
 number_of_cpus = mcmc_args.num_cpus
 
 calibrate = pd.read_csv(mcmc_args.calibrate)
-field_periods = np.array(calibrate['Log Period'])
-field_moduli = np.array(calibrate['Distance Modulus'])
-field_metal = np.array(calibrate['Metallicity'])
+field_periods = calibrate['Log Period'].values
+field_moduli = calibrate['Distance Modulus'].values
+field_metal = calibrate['Metallicity'].values
 
-observed = np.array(calibrate['Wesenheit Magnitude'])
+observed = calibrate['Wesenheit Magnitude'].values
 
 rr_lyrae_model = pm.Model()
 
@@ -30,12 +30,7 @@ with rr_lyrae_model:
     period_slope = pm.Normal('period_slope', mu = 0, sd = 10)
     metal_slope = pm.Normal('metallicity_slope', mu = 0, sd = 10)
 
-    modeled = []
-
-    for i in range(len(calibrate)):
-
-        modeled.append(field_moduli[i] + field_zero_point + period_slope * field_periods[i]
-                       + metal_slope * field_metal[i])
+    modeled = field_zero_point + field_moduli + period_slope * field_periods + metal_slope * field_metal
 
     obs = pm.Normal('obs', mu = modeled, sd = sigma, observed = observed)
 

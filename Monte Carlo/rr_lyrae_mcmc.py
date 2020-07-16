@@ -35,11 +35,11 @@ for lin_reg_table in lin_reg_tables:
     star_ids.append(lin_reg_table['Star Code'].values)
 
 calibrate = pd.read_csv(mcmc_args.calibrate)
-field_periods = np.array(calibrate['Log Period'])
-field_moduli = np.array(calibrate['Distance Modulus'])
-field_metal = np.array(calibrate['Metallicity'])
+field_periods = calibrate['Log Period'].values
+field_moduli = calibrate['Distance Modulus'].values
+field_metal = calibrate['Metallicity'].values
 
-field_mags = np.array(calibrate['Wesenheit Magnitude'])
+field_mags = calibrate['Wesenheit Magnitude'].values
 obs_mags.append(field_mags)
 
 rr_lyrae_model = pm.Model()
