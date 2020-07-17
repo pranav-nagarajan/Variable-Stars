@@ -8,7 +8,6 @@ import theano.tensor as tt
 
 mcmc_parser = argparse.ArgumentParser(description = "Helper for parallel processing.")
 mcmc_parser.add_argument('--num_cpus', type = int, help = "Number of processes to use.")
-mcmc_parser.add_argument('--zero_point', nargs = 2, type = float, help = "Theoretical zero point.")
 mcmc_parser.add_argument('--data', action = "append", type = str, help = "Data for RR Lyrae stars.")
 mcmc_parser.add_argument('--metal', nargs = 2, action = "append", type = float, help = "Mean metallicity.")
 mcmc_parser.add_argument('--calibrate', type = str, help = "Calibration data.")
@@ -21,7 +20,6 @@ for table in mcmc_args.data:
     lin_reg_tables.append(pd.read_csv(table))
 
 metals = mcmc_args.metal
-zp, zp_error = mcmc_args.zero_point[0], mcmc_args.zero_point[1]
 
 log_periods = []
 obs_mags = []
@@ -49,11 +47,9 @@ with rr_lyrae_model:
     modulus = pm.Normal('modulus', mu = 20, sd = 10, shape = len(lin_reg_tables))
     sigma = pm.HalfNormal('sigma', sd = 1)
 
-    zero_point = pm.Normal('zero_point', mu = zp, sd = zp_error)
+    zero_point = pm.Normal('zero_point', mu = 0, sd = 10)
     period_slope = pm.Normal('period_slope', mu = 0, sd = 10)
     metal_slope = pm.Normal('metallicity_slope', mu = 0, sd = 10)
-
-    field_zero_point = pm.Normal('calibration_point', mu = 0, sd = 2)
 
     magnitudes = []
 
@@ -67,7 +63,7 @@ with rr_lyrae_model:
 
     for i in range(len(calibrate['Star Code'])):
 
-        calibrations.append(field_moduli[i] + field_zero_point + period_slope * field_periods[i] +
+        calibrations.append(field_moduli[i] + zero_point + period_slope * field_periods[i] +
                             metal_slope * field_metal[i])
 
     magnitudes.append(calibrations)

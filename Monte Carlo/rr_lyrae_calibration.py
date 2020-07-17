@@ -26,11 +26,11 @@ with rr_lyrae_model:
 
     sigma = pm.HalfNormal('sigma', sd = 1)
 
-    field_zero_point = pm.Normal('calibration_point', mu = 0, sd = 2)
+    zero_point = pm.Normal('calibration_point', mu = 0, sd = 10)
     period_slope = pm.Normal('period_slope', mu = 0, sd = 10)
     metal_slope = pm.Normal('metallicity_slope', mu = 0, sd = 10)
 
-    modeled = field_zero_point + field_moduli + period_slope * field_periods + metal_slope * field_metal
+    modeled = zero_point + field_moduli + period_slope * field_periods + metal_slope * field_metal
 
     obs = pm.Normal('obs', mu = modeled, sd = sigma, observed = observed)
 
