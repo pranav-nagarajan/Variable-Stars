@@ -30,7 +30,8 @@ with rr_lyrae_model:
     period_slope = pm.Normal('period_slope', mu = 0, sd = 10)
     metal_slope = pm.Normal('metallicity_slope', mu = 0, sd = 10)
 
-    modeled = zero_point + field_moduli + period_slope * field_periods + metal_slope * field_metal
+    modeled = (zero_point + field_moduli + period_slope * (field_periods + 0.3)
+               + metal_slope * (field_metal + 1.36))
 
     obs = pm.Normal('obs', mu = modeled, sd = sigma, observed = observed)
 
