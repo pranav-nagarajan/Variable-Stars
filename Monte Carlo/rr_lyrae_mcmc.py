@@ -45,6 +45,7 @@ obs_mags.append(field_mags)
 field_mag_err = calibrate['Uncertainty in Wesenheit Magnitude'].values
 field_mod_err = calibrate['Uncertainty in Distance Modulus'].values
 errors.append(np.sqrt(field_mag_err**2 + field_mod_err**2))
+errors = np.hstack(errors)
 
 rr_lyrae_model = pm.Model()
 
