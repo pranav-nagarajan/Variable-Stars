@@ -25,12 +25,14 @@ log_periods = []
 obs_mags = []
 star_nums = []
 star_ids = []
+errors = []
 
 for lin_reg_table in lin_reg_tables:
     log_periods.append(lin_reg_table['Log Period'].values)
     obs_mags.append(lin_reg_table['Wesenheit Magnitude'].values)
     star_nums.append(len(lin_reg_table['Star'].unique()))
     star_ids.append(lin_reg_table['Star Code'].values)
+    errors.append(lin_reg_table['Uncertainty in Wesenheit Magnitude'].values)
 
 calibrate = pd.read_csv(mcmc_args.calibrate)
 field_periods = calibrate['Log Period'].values
@@ -40,12 +42,18 @@ field_metal = calibrate['Metallicity'].values
 field_mags = calibrate['Wesenheit Magnitude'].values
 obs_mags.append(field_mags)
 
+field_mag_err = calibrate['Uncertainty in Wesenheit Magnitude'].values
+field_mod_err = calibrate['Uncertainty in Distance Modulus'].values
+errors.append(np.sqrt(field_mag_err**2 + field_mod_err**2))
+
 rr_lyrae_model = pm.Model()
 
 with rr_lyrae_model:
 
-    modulus = pm.Normal('modulus', mu = 20, sd = 10, shape = len(lin_reg_tables))
     sigma = pm.HalfNormal('sigma', sd = 1)
+    total_err = np.sqrt(sigma**2 + errors**2)
+
+    modulus = pm.Normal('modulus', mu = 20, sd = 10, shape = len(lin_reg_tables))
 
     zero_point = pm.Normal('zero_point', mu = 0, sd = 10)
     period_slope = pm.Normal('period_slope', mu = 0, sd = 10)
@@ -68,7 +76,7 @@ with rr_lyrae_model:
 
     magnitudes.append(calibrations)
     modeled, observed = pm.math.concatenate(magnitudes), pm.math.concatenate(obs_mags)
-    obs = pm.Normal('obs', mu = modeled, sd = sigma, observed = observed)
+    obs = pm.Normal('obs', mu = modeled, sd = total_err, observed = observed)
 
 with rr_lyrae_model:
 
