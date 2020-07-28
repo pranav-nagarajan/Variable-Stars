@@ -14,4 +14,4 @@
 ## Command(s) to run:
 module load python/3.6
 echo "Starting MCMC for RR Lyrae P-L Relation..."
-python rr_lyrae_mcmc.py --num_cpus $SLURM_CPUS_PER_TASK --data sculptor_mcmc.csv --data and_one_mcmc.csv --data and_two_mcmc.csv --metal -1.68 0.5 --metal -1.45 0.5 --metal -1.64 0.5 --calibrate milky_way_mcmc.csv
+python rr_lyrae_mcmc.py --num_cpus $SLURM_CPUS_PER_TASK --data sculptor_mcmc.csv --data and_one_mcmc.csv --data and_two_mcmc.csv --metal -1.90 0.5 --metal -1.45 0.5 --metal -1.64 0.5 --calibrate milky_way_mcmc.csv
