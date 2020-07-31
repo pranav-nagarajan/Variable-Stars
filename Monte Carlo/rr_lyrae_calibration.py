@@ -20,11 +20,15 @@ field_metal = calibrate['Metallicity'].values
 
 observed = calibrate['Wesenheit Magnitude'].values
 
+field_mag_err = calibrate['Uncertainty in Wesenheit Magnitude'].values
+field_mod_err = calibrate['Uncertainty in Distance Modulus'].values
+
 rr_lyrae_model = pm.Model()
 
 with rr_lyrae_model:
 
     sigma = pm.HalfNormal('sigma', sd = 1)
+    total_err = np.sqrt(sigma**2 + field_mag_err**2 + field_mod_err**2)
 
     zero_point = pm.Normal('calibration_point', mu = 0, sd = 10)
     period_slope = pm.Normal('period_slope', mu = 0, sd = 10)
@@ -33,7 +37,7 @@ with rr_lyrae_model:
     modeled = (zero_point + field_moduli + period_slope * (field_periods + 0.3)
                + metal_slope * (field_metal + 1.36))
 
-    obs = pm.Normal('obs', mu = modeled, sd = sigma, observed = observed)
+    obs = pm.Normal('obs', mu = modeled, sd = total_err, observed = observed)
 
 with rr_lyrae_model:
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=mcmc
+#SBATCH --job-name=crater
 #SBATCH --account=co_dweisz
 #SBATCH --partition=savio2
 #SBATCH --nodes=1
@@ -13,5 +13,5 @@
 
 ## Command(s) to run:
 module load python/3.6
-echo "Starting MCMC for RR Lyrae P-L Relation..."
-python rr_lyrae_mcmc.py --num_cpus $SLURM_CPUS_PER_TASK --data sculptor_mcmc.csv --data and_one_mcmc.csv --data and_two_mcmc.csv --metal -1.90 1.0 --metal -1.45 1.0 --metal -1.64 1.0 --calibrate milky_way_mcmc.csv
+echo "Starting period computation for Crater II RR Lyrae dataset..."
+python ../Periods/compute_period.py $SLURM_CPUS_PER_TASK crater.csv crater_periods.csv
