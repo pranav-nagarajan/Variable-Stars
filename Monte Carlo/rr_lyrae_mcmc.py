@@ -53,6 +53,7 @@ with rr_lyrae_model:
 
     sigma = pm.HalfNormal('sigma', sd = 1)
     total_err = np.sqrt(sigma**2 + errors**2)
+    sigma_galaxy = pm.HalfNormal('sigma_galaxy', sd = 1, shape = len(lin_reg_tables))
 
     modulus = pm.Normal('modulus', mu = 20, sd = 10, shape = len(lin_reg_tables))
 
@@ -61,6 +62,7 @@ with rr_lyrae_model:
     metal_slope = pm.Normal('metallicity_slope', mu = 0, sd = 10)
 
     magnitudes = []
+    galaxy_errors = []
 
     for i in range(len(log_periods)):
 
@@ -68,15 +70,20 @@ with rr_lyrae_model:
         magnitudes.append(modulus[i] + zero_point + period_slope * log_periods[i] +
                           metal_slope * metal[star_ids[i]])
 
+        for j in range(len(star_nums[i])):
+            galaxy_errors.append(sigma_galaxy[i])
+
     calibrations = []
 
     for i in range(len(calibrate['Star Code'])):
 
         calibrations.append(field_moduli[i] + zero_point + period_slope * field_periods[i] +
                             metal_slope * field_metal[i])
+        galaxy_errors.append(0)
 
     magnitudes.append(calibrations)
     modeled, observed = pm.math.concatenate(magnitudes), pm.math.concatenate(obs_mags)
+    total_err = np.sqrt(total_err**2 + np.array(galaxy_errors)**2)
     obs = pm.Normal('obs', mu = modeled, sd = total_err, observed = observed)
 
 with rr_lyrae_model:
