@@ -25,14 +25,18 @@ log_periods = []
 obs_mags = []
 star_nums = []
 star_ids = []
+galaxy_ids = []
 errors = []
+counter = 0
 
 for lin_reg_table in lin_reg_tables:
     log_periods.append(lin_reg_table['Log Period'].values)
     obs_mags.append(lin_reg_table['Wesenheit Magnitude'].values)
     star_nums.append(len(lin_reg_table['Star'].unique()))
     star_ids.append(lin_reg_table['Star Code'].values)
+    galaxy_ids.append(np.ones(len(lin_reg_table['Star'].unique())) * counter)
     errors.append(lin_reg_table['Uncertainty in Wesenheit Magnitude'].values)
+    counter += 1
 
 calibrate = pd.read_csv(mcmc_args.calibrate)
 field_periods = calibrate['Log Period'].values
@@ -68,9 +72,7 @@ with rr_lyrae_model:
         metal = pm.Normal(f'metallicity_{i}', mu = metals[i][0], sd = metals[i][1], shape = star_nums[i])
         magnitudes.append(modulus[i] + zero_point + period_slope * log_periods[i] +
                           metal_slope * metal[star_ids[i]])
-
-        for j in range(star_nums[i]):
-            galaxy_errors.append(sigma_galaxy[i])
+        galaxy_errors.append(sigma_galaxy[galaxy_ids[i]])
 
     calibrations = []
 
@@ -78,12 +80,12 @@ with rr_lyrae_model:
 
         calibrations.append(field_moduli[i] + zero_point + period_slope * field_periods[i] +
                             metal_slope * field_metal[i])
-        galaxy_errors.append(0)
+        galaxy_errors.append(np.zeros(len(calibrate['Star Code'])))
 
     magnitudes.append(calibrations)
     modeled, observed = pm.math.concatenate(magnitudes), pm.math.concatenate(obs_mags)
 
-    galaxy_errors = np.array(galaxy_errors)
+    galaxy_errors = np.hstack(galaxy_errors)
     total_err = np.sqrt(sigma**2 + errors**2 + galaxy_errors**2)
     obs = pm.Normal('obs', mu = modeled, sd = total_err, observed = observed)
 
