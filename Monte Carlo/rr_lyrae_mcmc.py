@@ -70,7 +70,7 @@ with rr_lyrae_model:
         magnitudes.append(modulus[i] + zero_point + period_slope * log_periods[i] +
                           metal_slope * metal[star_ids[i]])
 
-        for j in range(len(star_nums[i])):
+        for j in range(star_nums[i]):
             galaxy_errors.append(sigma_galaxy[i])
 
     calibrations = []
