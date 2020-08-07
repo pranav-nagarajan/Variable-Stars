@@ -80,13 +80,15 @@ with rr_lyrae_model:
 
         calibrations.append(field_moduli[i] + zero_point + period_slope * field_periods[i] +
                             metal_slope * field_metal[i])
-        galaxy_errors.append(np.zeros(len(calibrate['Star Code'])))
+
 
     magnitudes.append(calibrations)
     modeled, observed = pm.math.concatenate(magnitudes), pm.math.concatenate(obs_mags)
 
+    galaxy_errors.append(np.zeros(len(calibrate['Star Code'])))
     galaxy_errors = np.hstack(galaxy_errors)
     total_err = np.sqrt(sigma**2 + errors**2 + galaxy_errors**2)
+
     obs = pm.Normal('obs', mu = modeled, sd = total_err, observed = observed)
 
 with rr_lyrae_model:
