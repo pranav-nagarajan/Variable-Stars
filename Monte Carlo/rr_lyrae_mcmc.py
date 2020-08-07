@@ -86,7 +86,7 @@ with rr_lyrae_model:
     modeled, observed = pm.math.concatenate(magnitudes), pm.math.concatenate(obs_mags)
 
     galaxy_errors.append(np.zeros(len(calibrate['Star Code'])))
-    galaxy_errors = np.hstack(galaxy_errors)
+    galaxy_errors = pm.math.concatenate(galaxy_errors)
     manual_err = np.sqrt(errors**2 + galaxy_errors**2)
     total_err = np.sqrt(sigma**2 + manual_err**2)
 
