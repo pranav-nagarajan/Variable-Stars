@@ -34,7 +34,7 @@ for lin_reg_table in lin_reg_tables:
     obs_mags.append(lin_reg_table['Wesenheit Magnitude'].values)
     star_nums.append(len(lin_reg_table['Star'].unique()))
     star_ids.append(lin_reg_table['Star Code'].values)
-    galaxy_ids.append(np.ones(len(lin_reg_table['Star'].unique())) * counter)
+    galaxy_ids.append(np.ones(len(lin_reg_table['Star'].unique()), dtype = int) * counter)
     errors.append(lin_reg_table['Uncertainty in Wesenheit Magnitude'].values)
     counter += 1
 
