@@ -14,4 +14,4 @@
 ## Command(s) to run:
 module load python/3.6
 echo "Starting period computation for Crater II RR Lyrae dataset..."
-python ../Periods/compute_period.py $SLURM_CPUS_PER_TASK crater.csv crater_periods.csv
+python ../Periods/compute_period.py $SLURM_CPUS_PER_TASK crater.csv crater_periods_new.csv
