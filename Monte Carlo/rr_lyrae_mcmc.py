@@ -60,9 +60,9 @@ with rr_lyrae_model:
 
     modulus = pm.Normal('modulus', mu = 20, sd = 10, shape = len(lin_reg_tables))
 
-    zero_point = pm.Normal('zero_point', mu = -0.94, sd = 0.01)
-    period_slope = pm.Normal('period_slope', mu = -2.43, sd = 0.01)
-    metal_slope = pm.Normal('metallicity_slope', mu = 0.15, sd = 0.01)
+    zero_point = pm.Normal('zero_point', mu = -0.94, sd = 0.0001)
+    period_slope = pm.Normal('period_slope', mu = -2.43, sd = 0.0001)
+    metal_slope = pm.Normal('metallicity_slope', mu = 0.15, sd = 0.0001)
 
     magnitudes = []
     galaxy_errors = []
