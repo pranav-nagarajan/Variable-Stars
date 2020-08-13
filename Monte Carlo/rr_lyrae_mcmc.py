@@ -55,8 +55,8 @@ rr_lyrae_model = pm.Model()
 
 with rr_lyrae_model:
 
-    sigma = pm.HalfNormal('sigma', sd = 1)
-    sigma_galaxy = pm.HalfNormal('sigma_galaxy', sd = 1, shape = len(lin_reg_tables))
+    sigma = pm.HalfNormal('sigma', sd = 0.01)
+    # sigma_galaxy = pm.HalfNormal('sigma_galaxy', sd = 1, shape = len(lin_reg_tables))
 
     modulus = pm.Normal('modulus', mu = 20, sd = 10, shape = len(lin_reg_tables))
 
@@ -72,7 +72,7 @@ with rr_lyrae_model:
         metal = pm.Normal(f'metallicity_{i}', mu = metals[i][0], sd = metals[i][1], shape = star_nums[i])
         magnitudes.append(modulus[i] + zero_point + period_slope * log_periods[i] +
                           metal_slope * metal[star_ids[i]])
-        galaxy_errors.append(sigma_galaxy[galaxy_ids[i]])
+        # galaxy_errors.append(sigma_galaxy[galaxy_ids[i]])
 
     calibrations = []
 
@@ -85,10 +85,11 @@ with rr_lyrae_model:
     magnitudes.append(calibrations)
     modeled, observed = pm.math.concatenate(magnitudes), pm.math.concatenate(obs_mags)
 
-    galaxy_errors.append(np.zeros(len(calibrate['Star Code'])))
-    galaxy_errors = pm.math.concatenate(galaxy_errors)
-    manual_err = np.sqrt(errors**2 + galaxy_errors**2)
-    total_err = np.sqrt(sigma**2 + manual_err**2)
+    # galaxy_errors.append(np.zeros(len(calibrate['Star Code'])))
+    # galaxy_errors = pm.math.concatenate(galaxy_errors)
+    # manual_err = np.sqrt(errors**2 + galaxy_errors**2)
+    # total_err = np.sqrt(sigma**2 + manual_err**2)
+    total_err = np.sqrt(sigma**2 + errors**2)
 
     obs = pm.Normal('obs', mu = modeled, sd = total_err, observed = observed)
 
