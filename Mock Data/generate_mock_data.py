@@ -29,15 +29,16 @@ truths = np.vstack([mus, fehs_mean]).T
 np.savetxt('mock_data_rrl.dat', data, fmt='%.4f', delimiter='   ')
 np.savetxt('mock_data_truths.dat', truths, fmt='%.4f', delimiter='   ')
 
-N_calibrators = 20 # number of calibration stars
+N_calibrators = 50 # number of calibration stars
 calib_mus = np.random.uniform(18, 25, N_calibrators) # Known distance moduli
 calib_fehs = np.random.uniform(-0.7, -2.5, N_calibrators) # Known metallicities
 calib_ps = 10**np.random.uniform(-0.35, -0.55, N_calibrators) # Calibration periods
 
 calib_mags = calib_mus + zp + period_slope * np.log10(calib_ps) + metal_slope * calib_fehs + sigma_intr*np.random.randn(N_calibrators) + sigma_noise*np.random.randn(N_calibrators)
 calib_uncs = np.ones(N_calibrators)*sigma_noise
+calib_mu_uncs = np.ones(N_calibrators)*0.1
 
-calib_data = np.vstack([calib_ps, calib_fehs, calib_mus, calib_mags, calib_uncs]).T
+calib_data = np.vstack([calib_ps, calib_fehs, calib_mus, calib_mu_uncs, calib_mags, calib_uncs]).T
 np.savetxt('calib_mock_data.dat', calib_data, fmt='%.4f', delimiter='   ')
 
 # remember to keep track of what the true distance moduli and mean fehs were.
