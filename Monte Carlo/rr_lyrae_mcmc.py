@@ -65,7 +65,7 @@ with rr_lyrae_model:
     # metal_slope = pm.Normal('metallicity_slope', mu = 0.15, sd = 0.001)
     zero_point = pm.Normal('zero_point', mu = 0, sd = 10)
     period_slope = pm.Normal('period_slope', mu = 0, sd = 10)
-    metal_slope = pm.Normal('metallicity_slope', mu = 0.2, sd = 0.1)
+    metal_slope = pm.Normal('metallicity_slope', mu = 0.15, sd = 0.01)
 
     magnitudes = []
     galaxy_errors = []
