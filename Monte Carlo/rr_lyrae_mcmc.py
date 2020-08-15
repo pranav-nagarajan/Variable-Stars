@@ -55,7 +55,7 @@ rr_lyrae_model = pm.Model()
 
 with rr_lyrae_model:
 
-    sigma = pm.HalfNormal('sigma', sd = 0.01)
+    sigma = pm.HalfNormal('sigma', sd = 0.001)
     # sigma_galaxy = pm.HalfNormal('sigma_galaxy', sd = 1, shape = len(lin_reg_tables))
 
     modulus = pm.Normal('modulus', mu = 20, sd = 10, shape = len(lin_reg_tables))
