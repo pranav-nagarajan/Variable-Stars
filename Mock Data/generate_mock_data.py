@@ -5,13 +5,13 @@ import numpy as np
 np.random.seed(42) # set the random seed so results are reproducible
 sigma_intr = 0.03 # intrinsic scatter term
 sigma_noise = 0.02 # observational uncertainty term
-sigma_dist = 0.1 # distance modulus uncertainty term
+sigma_dist = 0.10 # distance modulus uncertainty term
 
 N_gals = 4 # number of galaxies
 sig_feh = 0.5 # width of each galaxy's MDF, in dex
 
 mus = np.random.uniform(18, 25, N_gals) # distance moduli
-N_stars = np.random.randint(10, 40, N_gals) # number of stars in each galaxy
+N_stars = np.random.randint(20, 50, N_gals) # number of stars in each galaxy
 fehs_mean = np.random.uniform(-0.7, -2.5, N_gals) # mean of MDF of each galaxy
 period_slope, zp, metal_slope = -1.8, -1, 0.25 # "true" parameters of the PWZ
 
@@ -35,12 +35,11 @@ calib_mus = np.random.uniform(18, 25, N_calibrators) # Known distance moduli
 calib_fehs = np.random.uniform(-0.7, -2.5, N_calibrators) # Known metallicities
 calib_ps = 10**np.random.uniform(-0.35, -0.55, N_calibrators) # Calibration periods
 
-calib_uncs = np.ones(N_calibrators)*sigma_noise
-calib_mu_uncs = np.ones(N_calibrators)*sigma_dist
-calib_noise = np.sqrt(calib_uncs**2 + calib_mu_uncs**2)
-
+calib_noise = np.sqrt(sigma_noise**2 + sigma_dist**2)
 calib_mags = calib_mus + zp + period_slope * np.log10(calib_ps) + metal_slope * calib_fehs + sigma_intr*np.random.randn(N_calibrators) + calib_noise*np.random.randn(N_calibrators)
 
+calib_uncs = np.ones(N_calibrators)*sigma_noise
+calib_mu_uncs = np.ones(N_calibrators)*sigma_dist
 calib_data = np.vstack([calib_ps, calib_fehs, calib_mus, calib_mu_uncs, calib_mags, calib_uncs]).T
 np.savetxt('calib_mock_data.dat', calib_data, fmt='%.4f', delimiter='   ')
 
