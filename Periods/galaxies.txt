@@ -1,0 +1,10 @@
+Andromeda I, 12.7, 0.1
+Andromeda II, 11.7, 0.2
+Andromeda III, 14.4, 0.3
+Andromeda XV, 14.6, 0.3
+Andromeda XXVIII, 15.6, 0.9
+Cetus, 13.2, 0.2
+Crater II, 20.35, 0.02
+IC 1613, 9.2, 0.1
+Sculptor, 8.6, 0.5
+Tucana, 15.2, 0.2
