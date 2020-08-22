@@ -75,10 +75,11 @@ with rr_lyrae_model:
     magnitudes = []
     galaxy_errors = []
 
+    metal_zp = pm.Normal('galaxy_zp', mu = -1.68, sd = 0.04)
+    metal_coeff = pm.Normal('galaxy_slope', mu = 0.29, sd = 0.02)
+
     for i in range(len(log_periods)):
 
-        metal_zp = pm.Normal('galaxy_zp', mu = -1.68, sd = 0.04)
-        metal_coeff = pm.Normal('galaxy_slope', mu = 0.29, sd = 0.02)
         galaxy_mag = pm.Normal(f'magnitude_{i}', mu = galaxy_mags[i], sd = galaxy_mag_err[i])
 
         log_term = -6 - 0.04 * (galaxy_mag - modulus[i] - 4.83)
