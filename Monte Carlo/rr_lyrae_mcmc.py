@@ -112,6 +112,6 @@ with rr_lyrae_model:
 
 with rr_lyrae_model:
 
-    rr_lyrae_trace = pm.sample(cores = number_of_cpus, draws = 2000, tune = 2000)
+    rr_lyrae_trace = pm.sample(cores = number_of_cpus, draws = 5000, tune = 5000)
 
 pickle.dump(rr_lyrae_trace, open('rr_lyrae.pkl', 'wb'))
