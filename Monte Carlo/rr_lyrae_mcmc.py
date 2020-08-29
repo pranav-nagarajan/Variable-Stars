@@ -9,8 +9,8 @@ import theano.tensor as tt
 mcmc_parser = argparse.ArgumentParser(description = "Helper for parallel processing.")
 mcmc_parser.add_argument('--num_cpus', type = int, help = "Number of processes to use.")
 mcmc_parser.add_argument('--data', action = "append", type = str, help = "Data for RR Lyrae stars.")
-mcmc_parser.add_argument('--metal', nargs = 2, action = "append", type = float, help = "Mean metallicity.")
-# mcmc_parser.add_argument('--galaxies', type = str, help = "Catalog of Galaxies.")
+# mcmc_parser.add_argument('--metal', nargs = 2, action = "append", type = float, help = "Mean metallicity.")
+mcmc_parser.add_argument('--galaxies', type = str, help = "Catalog of Galaxies.")
 mcmc_parser.add_argument('--calibrate', type = str, help = "Calibration data.")
 mcmc_args = mcmc_parser.parse_args()
 
@@ -20,11 +20,11 @@ lin_reg_tables = []
 for table in mcmc_args.data:
     lin_reg_tables.append(pd.read_csv(table))
 
-metals = mcmc_args.metal
+# metals = mcmc_args.metal
 
-# galaxies = pd.read_csv(mcmc_args.galaxies)
-# galaxy_mags = galaxies['Apparent V Magnitude'].values
-# galaxy_mag_err = galaxies['Error in Magnitude'].values
+galaxies = pd.read_csv(mcmc_args.galaxies)
+galaxy_mags = galaxies['Apparent V Magnitude'].values
+galaxy_mag_err = galaxies['Error in Magnitude'].values
 
 log_periods = []
 obs_mags = []
