@@ -5,6 +5,9 @@ Andromeda XV, 14.6, 0.3
 Andromeda XXVIII, 15.6, 0.9
 Cetus, 13.2, 0.2
 Crater II, 12.15, 0.02
+Leo A, 12.4, 0.2
+Leo I, 10.0, 0.3
 IC 1613, 9.2, 0.1
+Sagittarius, 3.6, 0.3
 Sculptor, 8.6, 0.5
 Tucana, 15.2, 0.2

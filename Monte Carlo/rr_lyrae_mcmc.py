@@ -9,8 +9,8 @@ import theano.tensor as tt
 mcmc_parser = argparse.ArgumentParser(description = "Helper for parallel processing.")
 mcmc_parser.add_argument('--num_cpus', type = int, help = "Number of processes to use.")
 mcmc_parser.add_argument('--data', action = "append", type = str, help = "Data for RR Lyrae stars.")
-mcmc_parser.add_argument('--metal', nargs = 2, action = "append", type = float, help = "Mean metallicity.")
-# mcmc_parser.add_argument('--galaxies', type = str, help = "Catalog of Galaxies.")
+# mcmc_parser.add_argument('--metal', nargs = 2, action = "append", type = float, help = "Mean metallicity.")
+mcmc_parser.add_argument('--galaxies', type = str, help = "Catalog of Galaxies.")
 mcmc_parser.add_argument('--calibrate', type = str, help = "Calibration data.")
 mcmc_args = mcmc_parser.parse_args()
 
@@ -20,11 +20,11 @@ lin_reg_tables = []
 for table in mcmc_args.data:
     lin_reg_tables.append(pd.read_csv(table))
 
-metals = mcmc_args.metal
+# metals = mcmc_args.metal
 
-# galaxies = pd.read_csv(mcmc_args.galaxies)
-# galaxy_mags = galaxies['Apparent V Magnitude'].values
-# galaxy_mag_err = galaxies['Error in Magnitude'].values
+galaxies = pd.read_csv(mcmc_args.galaxies)
+galaxy_mags = galaxies['Apparent V Magnitude'].values
+galaxy_mag_err = galaxies['Error in Magnitude'].values
 
 log_periods = []
 obs_mags = []
@@ -75,18 +75,18 @@ with rr_lyrae_model:
     magnitudes = []
     # galaxy_errors = []
 
-    # metal_zp = pm.Normal('galaxy_zp', mu = -1.68, sd = 0.03)
-    # metal_coeff = pm.Normal('galaxy_slope', mu = 0.29, sd = 0.02)
+    metal_zp = pm.Normal('galaxy_zp', mu = -1.68, sd = 0.03)
+    metal_coeff = pm.Normal('galaxy_slope', mu = 0.29, sd = 0.02)
 
     for i in range(len(log_periods)):
 
-        # galaxy_mag = pm.Normal(f'magnitude_{i}', mu = galaxy_mags[i], sd = galaxy_mag_err[i])
+        galaxy_mag = pm.Normal(f'magnitude_{i}', mu = galaxy_mags[i], sd = galaxy_mag_err[i])
 
-        # log_term = -6 - 0.4 * (galaxy_mag - modulus[i] - 4.83)
-        # metal_mean = metal_zp + metal_coeff * log_term
+        log_term = -6 - 0.4 * (galaxy_mag - modulus[i] - 4.83)
+        metal_mean = metal_zp + metal_coeff * log_term
 
-        # metal = pm.Normal(f'metallicity_{i}', mu = metal_mean, sd = 0.5, shape = star_nums[i])
-        metal = pm.Normal(f'metallicity_{i}', mu = metals[i][0], sd = metals[i][1], shape = star_nums[i])
+        metal = pm.Normal(f'metallicity_{i}', mu = metal_mean, sd = 0.5, shape = star_nums[i])
+        # metal = pm.Normal(f'metallicity_{i}', mu = metals[i][0], sd = metals[i][1], shape = star_nums[i])
         magnitudes.append(modulus[i] + zero_point + period_slope * log_periods[i] +
                           metal_slope * metal[star_ids[i]])
         # galaxy_errors.append(sigma_galaxy[galaxy_ids[i]])
