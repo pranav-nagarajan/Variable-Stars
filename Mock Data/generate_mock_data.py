@@ -18,7 +18,7 @@ N_stars_3 = np.random.randint(100, 500)
 N_stars = np.array([N_stars_1, N_stars_2, N_stars_3])
 
 fehs_mean = np.random.uniform(-0.7, -2.5, N_gals) # mean of MDF of each galaxy
-period_slope, zp, metal_slope = -1.8, -1, 0.15 # "true" parameters of the PWZ
+period_slope, zp, metal_slope = -1.8, -1, 0.25 # "true" parameters of the PWZ
 
 all_fehs, all_P, all_mus, all_galaxy_ids = [], [], [], []
 for i in range(N_gals):
