@@ -22,9 +22,9 @@ for table in mcmc_args.data:
 
 metals = mcmc_args.metal
 
-galaxies = pd.read_csv(mcmc_args.galaxies)
-galaxy_mags = galaxies['Apparent V Magnitude'].values
-galaxy_mag_err = galaxies['Error in Magnitude'].values
+# galaxies = pd.read_csv(mcmc_args.galaxies)
+# galaxy_mags = galaxies['Apparent V Magnitude'].values
+# galaxy_mag_err = galaxies['Error in Magnitude'].values
 
 log_periods = []
 obs_mags = []
