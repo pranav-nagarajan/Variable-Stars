@@ -7,7 +7,7 @@ sigma_intr = 0.03 # intrinsic scatter term
 sigma_noise = 0.02 # observational uncertainty term
 sigma_dist = 0.10 # distance modulus uncertainty term
 
-N_gals = 3 # number of galaxies
+N_gals = 4 # number of galaxies
 sig_feh = 0.5 # width of each galaxy's MDF, in dex
 
 mus = np.random.uniform(18, 25, N_gals) # distance moduli
