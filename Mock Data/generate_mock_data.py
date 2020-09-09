@@ -11,14 +11,9 @@ N_gals = 3 # number of galaxies
 sig_feh = 0.5 # width of each galaxy's MDF, in dex
 
 mus = np.random.uniform(18, 25, N_gals) # distance moduli
-
-N_stars_1 = np.random.randint(1, 5) # number of stars in each galaxy
-N_stars_2 = np.random.randint(10, 50)
-N_stars_3 = np.random.randint(100, 500)
-N_stars = np.array([N_stars_1, N_stars_2, N_stars_3])
-
+N_stars = np.random.randint(100, 500, N_gals) # number of stars in each galaxy
 fehs_mean = np.random.uniform(-0.7, -2.5, N_gals) # mean of MDF of each galaxy
-period_slope, zp, metal_slope = -1.8, -1, 0.25 # "true" parameters of the PWZ
+period_slope, zp, metal_slope = -1.8, -1, 0.15 # "true" parameters of the PWZ
 
 all_fehs, all_P, all_mus, all_galaxy_ids = [], [], [], []
 for i in range(N_gals):

@@ -108,7 +108,7 @@ with rr_lyrae_model:
     # total_err = np.sqrt(sigma**2 + manual_err**2)
     total_err = np.sqrt(sigma**2 + errors**2)
 
-    obs = pm.Normal('obs', mu = modeled, sd = sigma, observed = observed)
+    obs = pm.Normal('obs', mu = modeled, sd = total_err, observed = observed)
 
 with rr_lyrae_model:
 
