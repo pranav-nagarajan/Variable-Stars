@@ -4,8 +4,8 @@ import numpy as np
 
 np.random.seed(42) # set the random seed so results are reproducible
 # sigma_intr = 0.03 # intrinsic scatter term
-sigma_noise = 0.02 # observational uncertainty term
-sigma_dist = 0.10 # distance modulus uncertainty term
+sigma_noise = 0.0001 # observational uncertainty term
+sigma_dist = 0.0001 # distance modulus uncertainty term
 
 N_gals = 3 # number of galaxies
 sig_feh = 0.5 # width of each galaxy's MDF, in dex
