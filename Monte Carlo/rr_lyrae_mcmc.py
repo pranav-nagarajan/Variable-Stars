@@ -68,7 +68,7 @@ with rr_lyrae_model:
     # zero_point = pm.Normal('zero_point', mu = -0.94, sd = 0.001)
     # period_slope = pm.Normal('period_slope', mu = -2.43, sd = 0.001)
     # metal_slope = pm.Normal('metallicity_slope', mu = 0.15, sd = 0.001)
-    zero_point = pm.Normal('zero_point', mu = -1, sd = 0.1)
+    zero_point = pm.Normal('zero_point', mu = 0, sd = 10)
     period_slope = pm.Normal('period_slope', mu = 0, sd = 10)
     metal_slope = pm.Normal('metallicity_slope', mu = 0, sd = 10)
 
