@@ -27,7 +27,7 @@ for i in range(N_gals):
     all_mus.append(N_stars[i]*[mus[i]])
     all_galaxy_ids.append(N_stars[i]*[i])
 all_fehs, all_P, all_mus, all_galaxy_ids = np.concatenate(all_fehs), np.concatenate(all_P), np.concatenate(all_mus), np.concatenate(all_galaxy_ids)
-mags = all_mus + zp + period_slope*np.log10(all_P) + metal_slope*all_fehs + sigma_intr*np.random.randn(len(all_P)) + sigma_noise*np.random.randn(len(all_P))
+mags = all_mus + zp + period_slope*np.log10(all_P) + metal_slope*all_fehs + sigma_noise*np.random.randn(len(all_P)) # + sigma_intr*np.random.randn(len(all_P)) 
 all_obs_uncertainties = np.ones(len(all_P))*sigma_noise
 
 data = np.vstack([all_P, mags, all_galaxy_ids, all_fehs, all_obs_uncertainties]).T
@@ -41,7 +41,7 @@ calib_fehs = np.random.uniform(-0.7, -2.5, N_calibrators) # Known metallicities
 calib_ps = 10**np.random.uniform(-0.35, -0.55, N_calibrators) # Calibration periods
 
 calib_noise = np.sqrt(sigma_noise**2 + sigma_dist**2)
-calib_mags = calib_mus + zp + period_slope * np.log10(calib_ps) + metal_slope * calib_fehs + sigma_intr*np.random.randn(N_calibrators) + calib_noise*np.random.randn(N_calibrators)
+calib_mags = calib_mus + zp + period_slope * np.log10(calib_ps) + metal_slope * calib_fehs  + calib_noise*np.random.randn(N_calibrators) # + sigma_intr*np.random.randn(N_calibrators)
 
 calib_uncs = np.ones(N_calibrators)*sigma_noise
 calib_mu_uncs = np.ones(N_calibrators)*sigma_dist
