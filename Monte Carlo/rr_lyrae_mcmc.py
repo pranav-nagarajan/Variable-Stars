@@ -60,7 +60,7 @@ rr_lyrae_model = pm.Model()
 
 with rr_lyrae_model:
 
-    sigma = pm.HalfNormal('sigma', sd = 0.5)
+    sigma = pm.HalfNormal('sigma', sd = 0.02)
     # sigma_galaxy = pm.HalfNormal('sigma_galaxy', sd = 1, shape = len(lin_reg_tables))
 
     modulus = pm.Normal('modulus', mu = 20, sd = 10, shape = len(lin_reg_tables))
@@ -68,8 +68,8 @@ with rr_lyrae_model:
     # zero_point = pm.Normal('zero_point', mu = -0.94, sd = 0.001)
     # period_slope = pm.Normal('period_slope', mu = -2.43, sd = 0.001)
     # metal_slope = pm.Normal('metallicity_slope', mu = 0.15, sd = 0.001)
-    zero_point = pm.Normal('zero_point', mu = -1, sd = 1)
-    period_slope = pm.Normal('period_slope', mu = -1.8, sd = 1)
+    zero_point = pm.Normal('zero_point', mu = 0, sd = 1)
+    period_slope = pm.Normal('period_slope', mu = 0, sd = 1)
     metal_slope = pm.Normal('metallicity_slope', mu = 0, sd = 1)
 
     magnitudes = []
