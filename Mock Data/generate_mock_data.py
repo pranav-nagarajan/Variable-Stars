@@ -3,7 +3,7 @@
 import numpy as np
 
 np.random.seed(42) # set the random seed so results are reproducible
-sigma_intr = 0.03 # intrinsic scatter term
+sigma_intr = 0.1 # intrinsic scatter term
 sigma_noise = 0.02 # observational uncertainty term
 sigma_dist = 0.1 # distance modulus uncertainty term
 
@@ -12,7 +12,7 @@ sig_feh = 0.5 # width of each galaxy's MDF, in dex
 
 mus = np.random.uniform(18, 25, N_gals) # distance moduli
 
-N_stars_1 = np.random.randint(2, 5) # number of stars in each galaxy
+N_stars_1 = np.random.randint(1, 5) # number of stars in each galaxy
 N_stars_2 = np.random.randint(10, 50)
 N_stars_3 = np.random.randint(100, 500)
 N_stars = np.array([N_stars_1, N_stars_2, N_stars_3])
