@@ -41,7 +41,7 @@ calib_fehs = np.random.uniform(-0.7, -2.5, N_calibrators) # Known metallicities
 calib_ps = 10**np.random.uniform(-0.35, -0.55, N_calibrators) # Calibration periods
 
 calib_noise = np.sqrt(sigma_noise**2 + sigma_dist**2)
-calib_mags = calib_mus + zp + period_slope * np.log10(calib_ps) + metal_slope * calib_fehs + calib_noise*np.random.randn(N_calibrators) # + sigma_intr*np.random.randn(N_calibrators)
+calib_mags = calib_mus + zp + period_slope * np.log10(calib_ps) + metal_slope * calib_fehs + calib_noise*np.random.randn(N_calibrators) + sigma_intr*np.random.randn(N_calibrators)
 
 calib_uncs = np.ones(N_calibrators)*sigma_noise
 calib_mu_uncs = np.ones(N_calibrators)*sigma_dist
@@ -49,4 +49,4 @@ calib_data = np.vstack([calib_ps, calib_fehs, calib_mus, calib_mu_uncs, calib_ma
 np.savetxt('calib_mock_data.dat', calib_data, fmt='%.4f', delimiter='   ')
 
 # remember to keep track of what the true distance moduli and mean fehs were.
-# in fitting, you should only use fehs_mean (since in real life you don't know the metallicty of each RRL). But it can be good to keep track of all_fehs so you can test whether you're getting them right.
+# in fitting, you should only use fehs_mean (since in real life you don't know the metallicity of each RRL). But it can be good to keep track of all_fehs so you can test whether you're getting them right.
