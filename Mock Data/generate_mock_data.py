@@ -2,7 +2,7 @@
 # Contributors: Kareem El-Badry and Pranav Nagarajan
 import numpy as np
 
-np.random.seed(33) # set the random seed so results are reproducible
+np.random.seed(42) # set the random seed so results are reproducible
 sigma_intr = 0.1 # intrinsic scatter term
 sigma_noise = 0.02 # observational uncertainty term
 sigma_dist = 0.1 # distance modulus uncertainty term
@@ -41,7 +41,7 @@ calib_fehs = np.random.uniform(-0.7, -2.5, N_calibrators) # Known metallicities
 calib_ps = 10**np.random.uniform(-0.35, -0.55, N_calibrators) # Calibration periods
 
 calib_noise = np.sqrt(sigma_noise**2 + sigma_dist**2)
-calib_mags = calib_mus + zp + period_slope * np.log10(calib_ps) + metal_slope * calib_fehs  + calib_noise*np.random.randn(N_calibrators) + sigma_intr*np.random.randn(N_calibrators)
+calib_mags = calib_mus + zp + period_slope * np.log10(calib_ps) + metal_slope * calib_fehs + calib_noise*np.random.randn(N_calibrators) # + sigma_intr*np.random.randn(N_calibrators)
 
 calib_uncs = np.ones(N_calibrators)*sigma_noise
 calib_mu_uncs = np.ones(N_calibrators)*sigma_dist
