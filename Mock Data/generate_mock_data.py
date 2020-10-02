@@ -2,7 +2,7 @@
 # Contributors: Kareem El-Badry and Pranav Nagarajan
 import numpy as np
 
-np.random.seed(20) # set the random seed so results are reproducible
+np.random.seed(14) # set the random seed so results are reproducible
 sigma_intr = 0.1 # intrinsic scatter term
 sigma_noise = 0.02 # observational uncertainty term
 sigma_dist = 0.1 # distance modulus uncertainty term
