@@ -114,6 +114,6 @@ map_estimate = pm.find_MAP(model = rr_lyrae_model)
 
 with rr_lyrae_model:
 
-    rr_lyrae_trace = pm.sample(cores = number_of_cpus, start = map_estimate, draws = 10000, tune = 10000)
+    rr_lyrae_trace = pm.sample(cores = number_of_cpus, start = map_estimate)
 
 pickle.dump(rr_lyrae_trace, open('rr_lyrae.pkl', 'wb'))
