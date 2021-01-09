@@ -3,10 +3,19 @@ Andromeda II, 11.7, 0.2
 Andromeda III, 14.4, 0.3
 Andromeda XV, 14.6, 0.3
 Andromeda XXVIII, 15.6, 0.9
+Carina, 11.0, 0.5
 Cetus, 13.2, 0.2
 Crater II, 12.15, 0.02
+Draco, 10.6, 0.2
+ESO294-G010, 15.3, 0.3
+ESO410-G005, 14.9, 0.3
+Fornax, 7.4, 0.3
+IC 1613, 9.2, 0.1
 Leo A, 12.4, 0.2
 Leo I, 10.0, 0.3
-IC 1613, 9.2, 0.1
+Leo P, 16.8, 0.2
+NGC 147, 9.5, 0.1
+NGC 185, 9.2, 0.1
+Phoenix, 13.2, 0.4
 Sculptor, 8.6, 0.5
 Tucana, 15.2, 0.2
