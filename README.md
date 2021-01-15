@@ -1,2 +1,2 @@
 # Variable-Stars
-Using PDM, Lomb-Scargle, and MCMC methods to translate variable star light curves into accurate distance measurements.
+Using MCMC methods to translate variable star light curves into accurate distance measurements for Local Group dwarf galaxies.
