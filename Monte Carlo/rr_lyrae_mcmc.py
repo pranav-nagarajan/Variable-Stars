@@ -42,12 +42,16 @@ field_periods = calibrate['Log Period'].values
 field_moduli = calibrate['Distance Modulus'].values
 field_metal = calibrate['Metallicity'].values
 
-field_mags = calibrate['Wesenheit Magnitude'].values
-obs_mags.append(field_mags)
+field_mags_BV = calibrate['B-V Wesenheit Magnitude'].values
+field_mags_VI = calibrate['V-I Wesenheit Magnitude'].values
+obs_mags.append(field_mags_BV)
+obs_mags.append(field_mags_VI)
 
-field_mag_err = calibrate['Uncertainty in Wesenheit Magnitude'].values
+field_mag_err_BV = calibrate['Uncertainty in B-V Wesenheit Magnitude'].values
+field_mag_err_VI = calibrate['Uncertainty in V-I Wesenheit Magnitude'].values
 field_mod_err = calibrate['Uncertainty in Distance Modulus'].values
-errors.append(np.sqrt(field_mag_err**2 + field_mod_err**2))
+errors.append(np.sqrt(field_mag_err_BV**2 + field_mod_err**2))
+errors.append(np.sqrt(field_mag_err_VI**2 + field_mod_err**2))
 errors = np.hstack(errors)
 
 rr_lyrae_model = pm.Model()
@@ -90,9 +94,13 @@ with rr_lyrae_model:
 
     for i in range(len(calibrate['Star Code'])):
 
+        calibrations.append(field_moduli[i] + zero_point_BV + period_slope_BV * field_periods[i] +
+                            metal_slope_BV * field_metal[i])
+
+    for i in range(len(calibrate['Star Code'])):
+
         calibrations.append(field_moduli[i] + zero_point_VI + period_slope_VI * field_periods[i] +
                             metal_slope_VI * field_metal[i])
-
 
     magnitudes.append(calibrations)
     modeled, observed = pm.math.concatenate(magnitudes), pm.math.concatenate(obs_mags)
