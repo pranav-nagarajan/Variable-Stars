@@ -1,30 +1,32 @@
-Andromeda I, 12.7, 0.1
-Andromeda II, 11.7, 0.2
-Andromeda III, 14.4, 0.3
-Andromeda XI, 17.5, 1.2
-Andromeda XIII, 18.1, 1.2
-Andromeda XV, 14.6, 0.3
-Andromeda XVI, 14.4, 0.3
-Andromeda XXVIII, 15.6, 0.9
-Bootes I, 12.8, 0.2
-Carina I, 11.0, 0.5
-Carina II, 13.3, 0.1
-Cetus, 13.2, 0.2
-Coma Berenices, 14.1, 0.5
-Crater II, 12.15, 0.02
-Draco, 10.6, 0.2
-ESO294-G010, 15.3, 0.3
-ESO410-G005, 14.9, 0.3
-Fornax, 7.4, 0.3
-Grus I, 17.1, 0.3
-IC 1613, 9.2, 0.1
-Leo A, 12.4, 0.2
-Leo I, 10.0, 0.3
-Leo P, 16.8, 0.2
-Leo T, 15.1, 0.5
-NGC 147, 9.5, 0.1
-NGC 185, 9.2, 0.1
-Phoenix I, 13.2, 0.4
-Phoenix II, 17.3, 0.4
-Sculptor, 8.6, 0.5
-Tucana, 15.2, 0.2
+Andromeda I, 12.7, 0.1, V-I
+Andromeda II, 11.7, 0.2, V-I
+Andromeda III, 14.4, 0.3, V-I
+Andromeda VII, 11.8, 0.3, B-V
+Andromeda XI, 17.5, 1.2, V-I
+Andromeda XIII, 18.1, 1.2, V-I
+Andromeda XV, 14.6, 0.3, V-I
+Andromeda XVI, 14.4, 0.3, V-I
+Andromeda XXVIII, 15.6, 0.9, V-I
+Bootes I, 12.8, 0.2, V-I
+Carina I, 11.0, 0.5, V-I
+Carina II, 13.3, 0.1, V-I
+Cetus, 13.2, 0.2, V-I
+Coma Berenices, 14.1, 0.5, V-I
+Crater II, 12.15, 0.02, V-I
+Draco, 10.6, 0.2, V-I
+ESO294-G010, 15.3, 0.3, V-I
+ESO410-G005, 14.9, 0.3, V-I
+Fornax, 7.4, 0.3, V-I
+Grus I, 17.1, 0.3, V-I
+IC 1613, 9.2, 0.1, V-I
+Leo A, 12.4, 0.2, V-I
+Leo I, 10.0, 0.3, V-I
+Leo P, 16.8, 0.2, V-I
+Leo T, 15.1, 0.5, V-I
+NGC 147, 9.5, 0.1, V-I
+NGC 185, 9.2, 0.1, V-I
+NGC 6822, 8.1, 0.2, B-V
+Phoenix I, 13.2, 0.4, V-I
+Phoenix II, 17.3, 0.4, V-I
+Sculptor, 8.6, 0.5, V-I
+Tucana, 15.2, 0.2, V-I

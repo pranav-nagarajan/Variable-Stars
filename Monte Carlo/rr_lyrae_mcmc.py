@@ -9,7 +9,6 @@ import theano.tensor as tt
 mcmc_parser = argparse.ArgumentParser(description = "Helper for parallel processing.")
 mcmc_parser.add_argument('--num_cpus', type = int, help = "Number of processes to use.")
 mcmc_parser.add_argument('--data', action = "append", type = str, help = "Data for RR Lyrae stars.")
-# mcmc_parser.add_argument('--metal', nargs = 2, action = "append", type = float, help = "Mean metallicity.")
 mcmc_parser.add_argument('--galaxies', type = str, help = "Catalog of Galaxies.")
 mcmc_parser.add_argument('--calibrate', type = str, help = "Calibration data.")
 mcmc_args = mcmc_parser.parse_args()
@@ -20,28 +19,23 @@ lin_reg_tables = []
 for table in mcmc_args.data:
     lin_reg_tables.append(pd.read_csv(table))
 
-# metals = mcmc_args.metal
-
 galaxies = pd.read_csv(mcmc_args.galaxies)
 galaxy_mags = galaxies['Apparent V Magnitude'].values
 galaxy_mag_err = galaxies['Error in Magnitude'].values
+galaxy_wesenheit = galaxies['Wesenheit Magnitude'].values
 
 log_periods = []
 obs_mags = []
 star_nums = []
 star_ids = []
-# galaxy_ids = []
 errors = []
-# counter = 0
 
 for lin_reg_table in lin_reg_tables:
     log_periods.append(lin_reg_table['Log Period'].values)
     obs_mags.append(lin_reg_table['Wesenheit Magnitude'].values)
     star_nums.append(len(lin_reg_table['Star'].unique()))
     star_ids.append(lin_reg_table['Star Code'].values)
-    # galaxy_ids.append(np.ones(len(lin_reg_table['Star'].unique()), dtype = int) * counter)
     errors.append(lin_reg_table['Uncertainty in Wesenheit Magnitude'].values)
-    # counter += 1
 
 calibrate = pd.read_csv(mcmc_args.calibrate)
 field_periods = calibrate['Log Period'].values
@@ -61,19 +55,18 @@ rr_lyrae_model = pm.Model()
 with rr_lyrae_model:
 
     sigma = pm.HalfNormal('sigma', sd = 0.5)
-    # sigma_galaxy = pm.HalfNormal('sigma_galaxy', sd = 1, shape = len(lin_reg_tables))
 
     modulus = pm.Normal('modulus', mu = 20, sd = 10, shape = len(lin_reg_tables))
 
-    # zero_point = pm.Normal('zero_point', mu = -0.94, sd = 0.001)
-    # period_slope = pm.Normal('period_slope', mu = -2.43, sd = 0.001)
-    # metal_slope = pm.Normal('metallicity_slope', mu = 0.15, sd = 0.001)
-    zero_point = pm.Normal('zero_point', mu = 0, sd = 1)
-    period_slope = pm.Normal('period_slope', mu = 0, sd = 1)
-    metal_slope = pm.Normal('metallicity_slope', mu = 0, sd = 1)
+    zero_point_BV = pm.Normal('zero_point_BV', mu = 0, sd = 1)
+    period_slope_BV = pm.Normal('period_slope_BV', mu = 0, sd = 1)
+    metal_slope_BV = pm.Normal('metallicity_slope_BV', mu = 0, sd = 1)
+
+    zero_point_VI = pm.Normal('zero_point_VI', mu = 0, sd = 1)
+    period_slope_VI = pm.Normal('period_slope_VI', mu = 0, sd = 1)
+    metal_slope_VI = pm.Normal('metallicity_slope_VI', mu = 0, sd = 1)
 
     magnitudes = []
-    # galaxy_errors = []
 
     metal_zp = pm.Normal('galaxy_zp', mu = -1.68, sd = 0.03)
     metal_coeff = pm.Normal('galaxy_slope', mu = 0.29, sd = 0.02)
@@ -84,12 +77,14 @@ with rr_lyrae_model:
 
         log_term = -6 - 0.4 * (galaxy_mag - modulus[i] - 4.83)
         metal_mean = metal_zp + metal_coeff * log_term
-
         metal = pm.Normal(f'metallicity_{i}', mu = metal_mean, sd = 0.5, shape = star_nums[i])
-        # metal = pm.Normal(f'metallicity_{i}', mu = metals[i][0], sd = metals[i][1], shape = star_nums[i])
-        magnitudes.append(modulus[i] + zero_point + period_slope * log_periods[i] +
-                          metal_slope * metal[star_ids[i]])
-        # galaxy_errors.append(sigma_galaxy[galaxy_ids[i]])
+
+        if galaxy_wesenheit[i] == 'B-V':
+            magnitudes.append(modulus[i] + zero_point_BV + period_slope_BV * log_periods[i] +
+                              metal_slope_BV * metal[star_ids[i]])
+        else:
+            magnitudes.append(modulus[i] + zero_point_VI + period_slope_VI * log_periods[i] +
+                              metal_slope_VI * metal[star_ids[i]])
 
     calibrations = []
 
@@ -102,10 +97,6 @@ with rr_lyrae_model:
     magnitudes.append(calibrations)
     modeled, observed = pm.math.concatenate(magnitudes), pm.math.concatenate(obs_mags)
 
-    # galaxy_errors.append(np.zeros(len(calibrate['Star Code'])))
-    # galaxy_errors = pm.math.concatenate(galaxy_errors)
-    # manual_err = np.sqrt(errors**2 + galaxy_errors**2)
-    # total_err = np.sqrt(sigma**2 + manual_err**2)
     total_err = np.sqrt(sigma**2 + errors**2)
 
     obs = pm.Normal('obs', mu = modeled, sd = total_err, observed = observed)
