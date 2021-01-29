@@ -90,8 +90,8 @@ with rr_lyrae_model:
 
     for i in range(len(calibrate['Star Code'])):
 
-        calibrations.append(field_moduli[i] + zero_point + period_slope * field_periods[i] +
-                            metal_slope * field_metal[i])
+        calibrations.append(field_moduli[i] + zero_point_VI + period_slope_VI * field_periods[i] +
+                            metal_slope_VI * field_metal[i])
 
 
     magnitudes.append(calibrations)
