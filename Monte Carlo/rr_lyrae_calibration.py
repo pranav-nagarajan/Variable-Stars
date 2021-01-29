@@ -54,7 +54,7 @@ with rr_lyrae_model:
     magnitudes = []
     magnitudes.append(modeled_BV)
     magnitudes.append(modeled_VI)
-    modeled, observed = pm.math.concatenate(magnitudes), observed = pm.math.concatenate(obs_mags)
+    modeled, observed = pm.math.concatenate(magnitudes), pm.math.concatenate(obs_mags)
 
     obs = pm.Normal('obs', mu = modeled, sd = total_err, observed = observed)
 
