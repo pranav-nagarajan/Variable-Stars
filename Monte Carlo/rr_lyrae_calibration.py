@@ -18,10 +18,9 @@ field_periods = calibrate['Log Period'].values
 field_moduli = calibrate['Distance Modulus'].values
 field_metal = calibrate['Metallicity'].values
 
-observed = []
-observed.append(calibrate['B-V Wesenheit Magnitude'].values)
-observed.append(calibrate['V-I Wesenheit Magnitude'].values)
-observed = pm.math.concatenate(observed)
+obs_mags = []
+obs_mags.append(calibrate['B-V Wesenheit Magnitude'].values)
+obs_mags.append(calibrate['V-I Wesenheit Magnitude'].values)
 
 errors = []
 field_mag_err_BV = calibrate['Uncertainty in B-V Wesenheit Magnitude'].values
@@ -55,7 +54,7 @@ with rr_lyrae_model:
     magnitudes = []
     magnitudes.append(modeled_BV)
     magnitudes.append(modeled_VI)
-    modeled = pm.math.concatenate(magnitudes)
+    modeled, observed = pm.math.concatenate(magnitudes), observed = pm.math.concatenate(obs_mags)
 
     obs = pm.Normal('obs', mu = modeled, sd = total_err, observed = observed)
 
