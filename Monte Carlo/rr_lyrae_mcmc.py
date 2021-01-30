@@ -88,11 +88,13 @@ with rr_lyrae_model:
         if galaxy_wesenheit[i] == 'B-V':
             magnitudes.append(modulus[i] + zero_point_BV + period_slope_BV * log_periods[i] +
                               metal_slope_BV * metal[star_ids[i]])
-            sigmas.append(sigma_BV)
+            for i in range(len(star_ids[i])):
+                sigmas.append(sigma_BV)
         else:
             magnitudes.append(modulus[i] + zero_point_VI + period_slope_VI * log_periods[i] +
                               metal_slope_VI * metal[star_ids[i]])
-            sigmas.append(sigma_VI)
+            for i in range(len(star_ids[i])):
+                sigmas.append(sigma_VI)
 
     calibrations = []
 
