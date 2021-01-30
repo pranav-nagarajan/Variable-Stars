@@ -6,7 +6,6 @@ Andromeda XI, 17.5, 1.2, V-I
 Andromeda XIII, 18.1, 1.2, V-I
 Andromeda XV, 14.6, 0.3, V-I
 Andromeda XVI, 14.4, 0.3, V-I
-Andromeda XXI, 14.8, 0.6, B-V
 Andromeda XXVIII, 15.6, 0.9, V-I
 Bootes I, 12.8, 0.2, V-I
 Carina I, 11.0, 0.5, V-I
@@ -26,7 +25,6 @@ Leo P, 16.8, 0.2, V-I
 Leo T, 15.1, 0.5, V-I
 NGC 147, 9.5, 0.1, V-I
 NGC 185, 9.2, 0.1, V-I
-NGC 6822, 8.1, 0.2, B-V
 Phoenix I, 13.2, 0.4, V-I
 Phoenix II, 17.3, 0.4, V-I
 Sculptor, 8.6, 0.5, V-I
