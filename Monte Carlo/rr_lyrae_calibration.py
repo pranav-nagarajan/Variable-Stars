@@ -57,7 +57,7 @@ with rr_lyrae_model:
     for i in range(len(field_periods)):
         sigmas.append(sigma_VI)
 
-    sigmas = np.array(sigmas)
+    sigmas = tt.as_tensor_variable(sigmas)
     total_err = np.sqrt(sigmas**2 + errors**2)
 
     magnitudes = []

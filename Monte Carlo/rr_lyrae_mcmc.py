@@ -111,7 +111,7 @@ with rr_lyrae_model:
     magnitudes.append(calibrations)
     modeled, observed = pm.math.concatenate(magnitudes), pm.math.concatenate(obs_mags)
 
-    sigmas = np.array(sigmas)
+    sigmas = tt.as_tensor_variable(sigmas)
     total_err = np.sqrt(sigmas**2 + errors**2)
 
     obs = pm.Normal('obs', mu = modeled, sd = total_err, observed = observed)
