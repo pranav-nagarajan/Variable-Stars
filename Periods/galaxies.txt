@@ -6,6 +6,7 @@ Andromeda XI, 17.5, 1.2, V-I
 Andromeda XIII, 18.1, 1.2, V-I
 Andromeda XV, 14.6, 0.3, V-I
 Andromeda XVI, 14.4, 0.3, V-I
+Andromeda XXI, 14.8, 0.6, B-V
 Andromeda XXVIII, 15.6, 0.9, V-I
 Bootes I, 12.8, 0.2, V-I
 Carina I, 11.0, 0.5, V-I
