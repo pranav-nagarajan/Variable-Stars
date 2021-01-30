@@ -34,8 +34,8 @@ rr_lyrae_model = pm.Model()
 
 with rr_lyrae_model:
 
-    sigma = pm.HalfNormal('sigma', sd = 1)
-    total_err = np.sqrt(sigma**2 + errors**2)
+    sigma_BV = pm.HalfNormal('sigma_BV', sd = 1)
+    sigma_VI = pm.HalfNormal('sigma_VI', sd = 1)
 
     zero_point_BV = pm.Normal('calibration_point_BV', mu = 0, sd = 10)
     period_slope_BV = pm.Normal('period_slope_BV', mu = 0, sd = 10)
@@ -51,9 +51,19 @@ with rr_lyrae_model:
     modeled_VI = (zero_point_VI + field_moduli + period_slope_VI * (field_periods + 0.3)
                   + metal_slope_VI * (field_metal + 1.36))
 
+    sigmas = []
+    for i in range(len(field_periods)):
+        sigmas.append(sigma_BV)
+    for i in range(len(field_periods)):
+        sigmas.append(sigma_VI)
+
+    sigmas = pm.math.concatenate(sigmas)
+    total_err = np.sqrt(sigmas**2 + errors**2)
+
     magnitudes = []
     magnitudes.append(modeled_BV)
     magnitudes.append(modeled_VI)
+
     modeled, observed = pm.math.concatenate(magnitudes), pm.math.concatenate(obs_mags)
 
     obs = pm.Normal('obs', mu = modeled, sd = total_err, observed = observed)

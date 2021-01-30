@@ -58,7 +58,8 @@ rr_lyrae_model = pm.Model()
 
 with rr_lyrae_model:
 
-    sigma = pm.HalfNormal('sigma', sd = 0.5)
+    sigma_BV = pm.HalfNormal('sigma_BV', sd = 0.5)
+    sigma_VI = pm.HalfNormal('sigma_VI', sd = 0.5)
 
     modulus = pm.Normal('modulus', mu = 20, sd = 10, shape = len(lin_reg_tables))
 
@@ -71,6 +72,7 @@ with rr_lyrae_model:
     metal_slope_VI = pm.Normal('metallicity_slope_VI', mu = 0, sd = 1)
 
     magnitudes = []
+    sigmas = []
 
     metal_zp = pm.Normal('galaxy_zp', mu = -1.68, sd = 0.03)
     metal_coeff = pm.Normal('galaxy_slope', mu = 0.29, sd = 0.02)
@@ -86,9 +88,11 @@ with rr_lyrae_model:
         if galaxy_wesenheit[i] == 'B-V':
             magnitudes.append(modulus[i] + zero_point_BV + period_slope_BV * log_periods[i] +
                               metal_slope_BV * metal[star_ids[i]])
+            sigmas.append(sigma_BV)
         else:
             magnitudes.append(modulus[i] + zero_point_VI + period_slope_VI * log_periods[i] +
                               metal_slope_VI * metal[star_ids[i]])
+            sigmas.append(sigma_VI)
 
     calibrations = []
 
@@ -96,16 +100,19 @@ with rr_lyrae_model:
 
         calibrations.append(field_moduli[i] + zero_point_BV + period_slope_BV * field_periods[i] +
                             metal_slope_BV * field_metal[i])
+        sigmas.append(sigma_BV)
 
     for i in range(len(calibrate['Star Code'])):
 
         calibrations.append(field_moduli[i] + zero_point_VI + period_slope_VI * field_periods[i] +
                             metal_slope_VI * field_metal[i])
+        sigmas.append(sigma_VI)
 
     magnitudes.append(calibrations)
     modeled, observed = pm.math.concatenate(magnitudes), pm.math.concatenate(obs_mags)
 
-    total_err = np.sqrt(sigma**2 + errors**2)
+    sigmas = pm.math.concatenate(sigmas)
+    total_err = np.sqrt(sigmas**2 + errors**2)
 
     obs = pm.Normal('obs', mu = modeled, sd = total_err, observed = observed)
 
