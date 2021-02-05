@@ -22,7 +22,6 @@ for table in mcmc_args.data:
 galaxies = pd.read_csv(mcmc_args.galaxies)
 galaxy_mags = galaxies['Apparent V Magnitude'].values
 galaxy_mag_err = galaxies['Error in Magnitude'].values
-galaxy_wesenheit = galaxies['Wesenheit Magnitude'].values
 
 log_periods = []
 obs_mags = []
@@ -42,34 +41,26 @@ field_periods = calibrate['Log Period'].values
 field_moduli = calibrate['Distance Modulus'].values
 field_metal = calibrate['Metallicity'].values
 
-field_mags_BV = calibrate['B-V Wesenheit Magnitude'].values
-field_mags_VI = calibrate['V-I Wesenheit Magnitude'].values
-obs_mags.append(field_mags_BV)
-obs_mags.append(field_mags_VI)
+field_mags = calibrate['Wesenheit Magnitude'].values
+field_mags_VI = calibrate['Wesenheit Magnitude'].values
+obs_mags.append(field_mags)
 
-field_mag_err_BV = calibrate['Uncertainty in B-V Wesenheit Magnitude'].values
-field_mag_err_VI = calibrate['Uncertainty in V-I Wesenheit Magnitude'].values
+field_mag_err = calibrate['Uncertainty in Wesenheit Magnitude'].values
 field_mod_err = calibrate['Uncertainty in Distance Modulus'].values
-errors.append(np.sqrt(field_mag_err_BV**2 + field_mod_err**2))
-errors.append(np.sqrt(field_mag_err_VI**2 + field_mod_err**2))
+errors.append(np.sqrt(field_mag_err**2 + field_mod_err**2))
 errors = np.hstack(errors)
 
 rr_lyrae_model = pm.Model()
 
 with rr_lyrae_model:
 
-    sigma_BV = pm.HalfNormal('sigma_BV', sd = 0.5)
-    sigma_VI = pm.HalfNormal('sigma_VI', sd = 0.5)
+    sigma = pm.HalfNormal('sigma', sd = 0.5)
 
     modulus = pm.Normal('modulus', mu = 20, sd = 10, shape = len(lin_reg_tables))
 
-    zero_point_BV = pm.Normal('zero_point_BV', mu = 0, sd = 1)
-    period_slope_BV = pm.Normal('period_slope_BV', mu = 0, sd = 1)
-    metal_slope_BV = pm.Normal('metallicity_slope_BV', mu = 0, sd = 1)
-
-    zero_point_VI = pm.Normal('zero_point_VI', mu = 0, sd = 1)
-    period_slope_VI = pm.Normal('period_slope_VI', mu = 0, sd = 1)
-    metal_slope_VI = pm.Normal('metallicity_slope_VI', mu = 0, sd = 1)
+    zero_point_VI = pm.Normal('zero_point', mu = 0, sd = 1)
+    period_slope_VI = pm.Normal('period_slope', mu = 0, sd = 1)
+    metal_slope_VI = pm.Normal('metallicity_slope', mu = 0, sd = 1)
 
     magnitudes = []
     sigmas = []
@@ -85,36 +76,20 @@ with rr_lyrae_model:
         metal_mean = metal_zp + metal_coeff * log_term
         metal = pm.Normal(f'metallicity_{i}', mu = metal_mean, sd = 0.5, shape = star_nums[i])
 
-        if galaxy_wesenheit[i] == 'B-V':
-            magnitudes.append(modulus[i] + zero_point_BV + period_slope_BV * log_periods[i] +
-                              metal_slope_BV * metal[star_ids[i]])
-            for i in range(len(star_ids[i])):
-                sigmas.append(sigma_BV)
-        else:
-            magnitudes.append(modulus[i] + zero_point_VI + period_slope_VI * log_periods[i] +
-                              metal_slope_VI * metal[star_ids[i]])
-            for i in range(len(star_ids[i])):
-                sigmas.append(sigma_VI)
+        magnitudes.append(modulus[i] + zero_point + period_slope * log_periods[i] +
+                          metal_slope * metal[star_ids[i]])
 
     calibrations = []
 
     for i in range(len(calibrate['Star Code'])):
 
-        calibrations.append(field_moduli[i] + zero_point_BV + period_slope_BV * field_periods[i] +
-                            metal_slope_BV * field_metal[i])
-        sigmas.append(sigma_BV)
-
-    for i in range(len(calibrate['Star Code'])):
-
-        calibrations.append(field_moduli[i] + zero_point_VI + period_slope_VI * field_periods[i] +
-                            metal_slope_VI * field_metal[i])
-        sigmas.append(sigma_VI)
+        calibrations.append(field_moduli[i] + zero_point + period_slope * field_periods[i] +
+                            metal_slope * field_metal[i])
 
     magnitudes.append(calibrations)
     modeled, observed = pm.math.concatenate(magnitudes), pm.math.concatenate(obs_mags)
 
-    sigmas = tt.as_tensor_variable(sigmas)
-    total_err = np.sqrt(sigmas**2 + errors**2)
+    total_err = np.sqrt(sigma**2 + errors**2)
 
     obs = pm.Normal('obs', mu = modeled, sd = total_err, observed = observed)
 
