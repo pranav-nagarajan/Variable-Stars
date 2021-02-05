@@ -58,9 +58,9 @@ with rr_lyrae_model:
 
     modulus = pm.Normal('modulus', mu = 20, sd = 10, shape = len(lin_reg_tables))
 
-    zero_point_VI = pm.Normal('zero_point', mu = 0, sd = 1)
-    period_slope_VI = pm.Normal('period_slope', mu = 0, sd = 1)
-    metal_slope_VI = pm.Normal('metallicity_slope', mu = 0, sd = 1)
+    zero_point = pm.Normal('zero_point', mu = 0, sd = 1)
+    period_slope = pm.Normal('period_slope', mu = 0, sd = 1)
+    metal_slope = pm.Normal('metallicity_slope', mu = 0, sd = 1)
 
     magnitudes = []
     sigmas = []
