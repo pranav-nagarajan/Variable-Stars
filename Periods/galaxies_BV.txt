@@ -1,3 +1,9 @@
+Andromeda VI, 13.2, 0.2
 Andromeda VII, 11.8, 0.3
+Andromeda XIX, 15.6, 0.6
 Andromeda XXI, 14.8, 0.6
+Andromeda XXV, 14.8, 0.5
+Andromeda XXVII, 16.7, 0.5
+Canes Venatici I, 13.1, 0.2
+Hercules, 14.0, 0.3
 NGC 6822, 8.1, 0.2
