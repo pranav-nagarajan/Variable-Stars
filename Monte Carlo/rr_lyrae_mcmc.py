@@ -63,7 +63,6 @@ with rr_lyrae_model:
     metal_slope = pm.Normal('metallicity_slope', mu = 0, sd = 1)
 
     magnitudes = []
-    sigmas = []
 
     metal_zp = pm.Normal('galaxy_zp', mu = -1.68, sd = 0.03)
     metal_coeff = pm.Normal('galaxy_slope', mu = 0.29, sd = 0.02)
