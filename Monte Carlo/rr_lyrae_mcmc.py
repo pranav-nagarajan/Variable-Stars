@@ -42,7 +42,6 @@ field_moduli = calibrate['Distance Modulus'].values
 field_metal = calibrate['Metallicity'].values
 
 field_mags = calibrate['Wesenheit Magnitude'].values
-field_mags_VI = calibrate['Wesenheit Magnitude'].values
 obs_mags.append(field_mags)
 
 field_mag_err = calibrate['Uncertainty in Wesenheit Magnitude'].values
