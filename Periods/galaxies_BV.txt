@@ -1,14 +1,7 @@
-Andromeda VI, 13.2, 0.2
-Andromeda VII, 11.8, 0.3
-Andromeda XIX, 15.6, 0.6
-Andromeda XXI, 14.8, 0.6
-Andromeda XXV, 14.8, 0.5
-Andromeda XXVII, 16.7, 0.5
 Canes Venatici I, 13.1, 0.2
 Canes Venatici II, 16.1, 0.5
 Hercules, 14.0, 0.3
 Leo IV, 15.1, 0.4
-NGC 6822, 8.1, 0.2
 Sagittarius II, 13.83, 0.1
 Segue II, 15.2, 0.3
 Ursa Major I, 14.4, 0.3
