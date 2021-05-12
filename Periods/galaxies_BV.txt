@@ -1,8 +1,8 @@
-Canes Venatici I, 13.1, 0.2
-Canes Venatici II, 16.1, 0.5
-Hercules, 14.0, 0.3
-Leo IV, 15.1, 0.4
-Sagittarius II, 13.83, 0.1
-Segue II, 15.2, 0.3
-Ursa Major I, 14.4, 0.3
-Ursa Major II, 13.3, 0.5
+Canes Venatici I, 13.1, 0.2, 0.043
+Canes Venatici II, 16.1, 0.5, 0.027
+Hercules, 14.0, 0.3, 0.171
+Leo IV, 15.1, 0.4, 0.069
+Sagittarius II, 13.83, 0.1, 0.302
+Segue II, 15.2, 0.3, 0.507
+Ursa Major I, 14.4, 0.3, 0.054
+Ursa Major II, 13.3, 0.5, 0.257

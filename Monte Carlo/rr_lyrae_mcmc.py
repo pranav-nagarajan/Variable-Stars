@@ -22,6 +22,7 @@ for table in mcmc_args.data:
 galaxies = pd.read_csv(mcmc_args.galaxies)
 galaxy_mags = galaxies['Apparent V Magnitude'].values
 galaxy_mag_err = galaxies['Error in Magnitude'].values
+galaxy_av = galaxies['V Band Extinction'].values
 
 log_periods = []
 obs_mags = []
@@ -78,7 +79,7 @@ with rr_lyrae_model:
 
         galaxy_mag = pm.Normal(f'magnitude_{i}', mu = galaxy_mags[i], sd = galaxy_mag_err[i])
 
-        log_term = -6 - 0.4 * (galaxy_mag - modulus[i] - 4.83)
+        log_term = -6 - 0.4 * (galaxy_mag - modulus[i] - 4.83 - galaxy_av[i])
         metal_mean = metal_zp + metal_coeff * log_term
         metal = pm.Normal(f'metallicity_{i}', mu = metal_mean, sd = 0.5, shape = star_nums[i])
 
