@@ -20,7 +20,7 @@ for table in mcmc_args.data:
     lin_reg_tables.append(pd.read_csv(table))
 
 galaxies = pd.read_csv(mcmc_args.galaxies)
-galaxy_mags = galaxies['Apparent V Magnitude'].values
+galaxy_mags = galaxies['Absolute V Magnitude'].values
 galaxy_mag_err = galaxies['Error in Magnitude'].values
 galaxy_av = galaxies['V Band Extinction'].values
 
@@ -79,9 +79,10 @@ with rr_lyrae_model:
 
         galaxy_mag = pm.Normal(f'magnitude_{i}', mu = galaxy_mags[i], sd = galaxy_mag_err[i])
 
-        log_term = -6 - 0.4 * (galaxy_mag - modulus[i] - 4.83 - galaxy_av[i])
+        log_term = -6 - 0.4 * (galaxy_mag - 4.83 - galaxy_av[i])
         metal_mean = metal_zp + metal_coeff * log_term
-        metal_mean = tt.set_subtensor(metal_mean[tt.gt(-2.0)], -2.0)
+        metal_mask = tt.gt(metal_mean, -2.0).eval().nonzero()
+        metal_mean = tt.set_subtensor(metal_mean[metal_mask], -2.0)
 
         metal = pm.Normal(f'metallicity_{i}', mu = metal_mean, sd = 0.5, shape = star_nums[i])
 

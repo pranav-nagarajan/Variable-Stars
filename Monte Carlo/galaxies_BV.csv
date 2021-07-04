@@ -1,9 +1,9 @@
-,Galaxy Name,Apparent V Magnitude,Error in Magnitude,V Band Extinction
-0,Canes Venatici I,13.1,0.2,0.043
-1,Canes Venatici II,16.1,0.5,0.027000000000000003
-2,Hercules,14.0,0.3,0.171
-3,Leo IV,15.1,0.4,0.069
-4,Sagittarius II,13.83,0.1,0.302
-5,Segue II,15.2,0.3,0.507
-6,Ursa Major I,14.4,0.3,0.054000000000000006
-7,Ursa Major II,13.3,0.5,0.257
+,Galaxy Name,Apparent V Magnitude,Error in Magnitude,V Band Extinction,Absolute V Magnitude
+0,Canes Venatici I,13.1,0.2,0.043,-8.520000000000001
+1,Canes Venatici II,16.1,0.5,0.027000000000000003,-4.919999999999998
+2,Hercules,14.0,0.3,0.171,-6.600000000000001
+3,Leo IV,15.1,0.4,0.069,-5.840000000000002
+4,Sagittarius II,13.83,0.1,0.302,-5.200000000000001
+5,Segue II,15.2,0.3,0.507,-2.620000000000001
+6,Ursa Major I,14.4,0.3,0.054000000000000006,-5.540000000000001
+7,Ursa Major II,13.3,0.5,0.257,-4.399999999999999
