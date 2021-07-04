@@ -78,9 +78,11 @@ with rr_lyrae_model:
     for i in range(len(log_periods)):
 
         log_term = -6 - 0.4 * (galaxy_mags[i] - 4.83 - galaxy_av[i])
-        metal_mean = metal_zp + metal_coeff * log_term
-        if metal_mean.eval() > -2.0:
+        metal_test = -1.68 + 0.29 * log_term
+        if metal_test > -2.0:
             metal_mean = -2.0
+        else:
+            metal_mean = metal_zp + metal_coeff * log_term
 
         metal = pm.Normal(f'metallicity_{i}', mu = metal_mean, sd = 0.5, shape = star_nums[i])
 
